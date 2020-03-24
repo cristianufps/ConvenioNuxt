@@ -31,6 +31,43 @@ export default {
   plugins: [
     '@/plugins/antd-ui'
   ],
+  /*  
+  ** Axios module configuration
+  ** See https://axios.nuxtjs.org/options
+  */
+  axios: {
+    baseURL: 'http://localhost:4200'
+  },
+  /*
+  ** Login Configuration 
+  */
+  auth: {
+    // Options
+    redirect: {
+      login: '/authentication/login',
+      logout: '/',
+      callback: '/authentication/login',
+      home: '/'
+    },
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: '/login', method: 'post', propertyName: 'token'
+          },
+          logout: false,
+          user: { url: '/me', method: 'get', propertyName: 'user' }
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer'
+      }
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
+
   /*
   ** Nuxt.js dev-modules
   */
@@ -42,6 +79,9 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
   /*
   ** Build configuration
@@ -50,7 +90,7 @@ export default {
     /*
     ** You can extend webpack config here
     */
-    extend (config, ctx) {
+    extend(config, ctx) {
     }
   }
 }
