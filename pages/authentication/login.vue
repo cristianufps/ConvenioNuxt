@@ -1,5 +1,7 @@
 <template>
   <a-row class="login-card" type="flex" align="middle" justify="space-around">
+    <a-col :md="8" :lg="8" :xl="8" class="back-block"></a-col>
+
     <a-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
       <a-form
         id="components-form-demo-normal-login"
@@ -7,9 +9,9 @@
         class="login-form"
         @submit="handleSubmit"
       >
-        <!-- <div class="wrapper-login">
-                <img src="~assets/images/logo.png" />
-        </div>-->
+        <div class="wrapper-login">
+          <img height="145" src="~assets/images/logo-login.png" />
+        </div>
 
         <a-form-item>
           <a-input
@@ -33,9 +35,10 @@
           >
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input>
-          <a class="login-form-forgot" href>¿olvidó la contraseña?</a>
         </a-form-item>
         <a-alert v-if="error" type="error" message="Datos incorrectos" banner />
+        <nuxt-link class="login-form-forgot" to="/forgot/forgot">¿olvidó la contraseña?</nuxt-link>
+
         <a-form-item>
           <a-button type="primary" html-type="submit" class="login-form-button">
             <b>Iniciar sesión</b>
@@ -43,7 +46,6 @@
         </a-form-item>
       </a-form>
     </a-col>
-    <a-col :md="8" :lg="8" :xl="8"></a-col>
   </a-row>
 </template>
 
@@ -72,20 +74,17 @@ export default {
     },
     async login(e) {
       try {
-        // let params = new URLSearchParams();
-        // params.set("grant_type", "password");
-        // params.set("username", e.userName);
-        // params.set("password", e.password);
-
         let datos = {
           user: e.userName,
           password: e.password
         };
 
-        await this.$auth.loginWith("local", {
+        const edinson = await this.$auth.loginWith("local", {
           data: datos
         });
+        console.log("errr>>> ", edinson);
       } catch (error) {
+        console.log("errrorZ>>> ", error);
         this.error = error;
       }
     }
@@ -110,6 +109,14 @@ export default {
   width: 100%;
   position: fixed;
 }
+
+/* .back-block {
+  background: url(https://ww2.ufps.edu.co/public/imagenes/noticia/99d3ecda99295bae792dd42378e31d53.jpg);
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+} */
 
 .wrapper-login {
   z-index: 5;

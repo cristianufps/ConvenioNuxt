@@ -23,13 +23,16 @@ export default {
   ** Global CSS
   */
   css: [
-    'ant-design-vue/dist/antd.css'
+    'ant-design-vue/dist/antd.css',
+    { src: './assets/css/style.css' }
   ],
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/antd-ui'
+    '@/plugins/antd-ui',
+    '@/plugins/vue-axios',
+    '@/plugins/axios'
   ],
   /*  
   ** Axios module configuration
@@ -61,7 +64,8 @@ export default {
         tokenRequired: true,
         tokenType: 'Bearer'
       }
-    }
+    },
+    resetOnError: true
   },
 
   router: {
@@ -73,7 +77,6 @@ export default {
   */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
   ],
   /*
   ** Nuxt.js modules
