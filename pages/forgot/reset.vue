@@ -14,9 +14,6 @@
           {
             rules: [{
               required: true, message: 'Este campo es requerido',
-            },
-            {
-              validator: minLength,
             }],
           }
         ]"
@@ -56,9 +53,14 @@ export default {
   beforeCreate() {
     this.form = this.$form.createForm(this);
   },
+  beforeMount() {
+    let params = this.$route.fullPath.replace("/forgot/reset/?token=", "");
+    this.token = params;
+  },
   data() {
     return {
-      error: null
+      error: null,
+      token: ""
     };
   },
   methods: {
@@ -80,16 +82,19 @@ export default {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         if (!err) {
-          this.forgot(values.email);
+          this.updatePassword(values.password);
         }
       });
     },
     updatePassword(us) {
       let header = this.token;
-      header = header.replace("/users/reset/?token=", "");
+      header = header.replace("/forgot/reset/?token=", "");
       this.$axios.setHeader("Authorization", header);
+      let body = {
+        password: us
+      };
       this.$axios
-        .post("/reset", us)
+        .post("/reset", body)
         .then(res => {
           if (res.status == 200 || res.status == 204) {
             let msj = res.data.message;
@@ -99,24 +104,6 @@ export default {
         })
         .catch(error => {
           this.notification("error", "Error", "Ha ocurrido un error.");
-        });
-    },
-    forgot(email) {
-      let datos = {
-        user: email
-      };
-      this.$axios
-        .post("/forgot", datos)
-        .then(res => {
-          if (res) {
-            if (res.status == 200) {
-              let msj = res.data.message;
-              this.notification("info", "Información", msj);
-            }
-          }
-        })
-        .catch(error => {
-          this.notification("error", "Error", "Se ha producido un error.");
         });
     }
   }

@@ -36,14 +36,14 @@
             <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
           </a-input>
         </a-form-item>
-        <a-alert v-if="error" type="error" message="Datos incorrectos" banner />
-        <nuxt-link class="login-form-forgot" to="/forgot/forgot">¿olvidó la contraseña?</nuxt-link>
 
+        <a-alert v-if="error" type="error" message="Datos incorrectos" banner />
         <a-form-item>
           <a-button type="primary" html-type="submit" class="login-form-button">
             <b>Iniciar sesión</b>
           </a-button>
         </a-form-item>
+        <nuxt-link class="login-form-forgot lk-f" to="/forgot/forgot">¿olvidó la contraseña?</nuxt-link>
       </a-form>
     </a-col>
   </a-row>
@@ -92,6 +92,10 @@ export default {
 };
 </script>
 <style scoped>
+.lk-f {
+  color: red !important;
+}
+
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
 }
