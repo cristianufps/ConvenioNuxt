@@ -1,15 +1,18 @@
 <template>
-  <a-card class="card-forgot">
-    <a-button type="primary" @click="users">prueba</a-button>
+  <div class="card-forgot">
     <a-row type="flex" justify="space-around">
-      <a-col :span="11"></a-col>
-      <a-col :span="11">
-        <h5>Recuperar contraseña</h5>
-        <a-form :form="form" @submit="handleSubmit">
-          <a-form-item>
-            <label>Email</label>
-            <a-input
-              v-decorator="[
+      <a-col :span="12" class="mitad"></a-col>
+      <a-col :span="12">
+        <a-row type="flex" justify="space-around">
+          <a-col :span="14">
+            <a-form :form="form" @submit="handleSubmit">
+              <div class="wrapper-login">
+                <img height="145" src="~assets/images/logo-login.png" />
+              </div>
+              <a-form-item>
+                <label>Email</label>
+                <a-input
+                  v-decorator="[
           'email',
           {
             rules: [
@@ -24,15 +27,25 @@
             ],
           },
         ]"
-            />
-          </a-form-item>
-          <a-form-item>
-            <a-button type="primary" html-type="submit">Confirmar</a-button>
-          </a-form-item>
-        </a-form>
+                />
+              </a-form-item>
+              <a-form-item class="margin-reduce">
+                <a-button type="primary" class="login-form-button" html-type="submit">
+                  <b>Confirmar</b>
+                </a-button>
+              </a-form-item>
+
+              <nuxt-link to="/">
+                <a-button class="login-form-button">
+                  <b class="red">Ingresar</b>
+                </a-button>
+              </nuxt-link>
+            </a-form>
+          </a-col>
+        </a-row>
       </a-col>
     </a-row>
-  </a-card>
+  </div>
 </template>
 <script>
 export default {
@@ -98,12 +111,41 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style>
+.red {
+  color: #dd4b39 !important;
+}
+
+.margin-reduce {
+  margin-bottom: 5px;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
 .card-forgot {
-  /* background: url(../../assets/images/car-repair.jpg); */
-  background-size: cover;
   height: 100%;
   width: 100%;
   position: fixed;
+}
+
+.mitad {
+  background: url(../../assets/images/img-forgot.jpeg);
+  background-size: cover;
+  height: 100%;
+}
+
+.card-forgot > div {
+  height: 100% !important;
+  align-items: center !important;
+}
+
+.wrapper-login {
+  z-index: 5;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 </style>

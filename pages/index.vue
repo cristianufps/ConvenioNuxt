@@ -20,6 +20,11 @@ export default {
   components: {
     Logo
   },
+  middleware({ store, redirect }) {
+    let rol = store.$auth.$state.user;
+
+    return redirect("/admin/home");
+  },
   methods: {
     async logout() {
       this.$auth.logout();

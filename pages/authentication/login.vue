@@ -1,8 +1,8 @@
 <template>
-  <a-row class="login-card" type="flex" align="middle" justify="space-around">
+  <a-row class="login-card" type="flex" align="middle" justify="end">
     <a-col :md="8" :lg="8" :xl="8" class="back-block"></a-col>
 
-    <a-col :xs="24" :sm="24" :md="7" :lg="7" :xl="7">
+    <a-col class="padd" :xs="24" :sm="24" :md="9" :lg="9" :xl="9">
       <a-form
         id="components-form-demo-normal-login"
         :form="form"
@@ -12,7 +12,6 @@
         <div class="wrapper-login">
           <img height="145" src="~assets/images/logo-login.png" />
         </div>
-
         <a-form-item>
           <a-input
             v-decorator="[
@@ -79,13 +78,13 @@ export default {
           password: e.password
         };
 
-        const edinson = await this.$auth.loginWith("local", {
+        await this.$auth.loginWith("local", {
           data: datos
         });
-        console.log("errr>>> ", edinson);
+        this.$nuxt.$loading.start();
       } catch (error) {
-        console.log("errrorZ>>> ", error);
         this.error = error;
+        this.$nuxt.$loading.finish();
       }
     }
   }
@@ -93,7 +92,12 @@ export default {
 </script>
 <style scoped>
 .lk-f {
-  color: red !important;
+  color: #dd4b39 !important;
+}
+
+.padd {
+  padding-left: 50px;
+  padding-right: 50px;
 }
 
 #components-form-demo-normal-login .login-form {
@@ -107,20 +111,19 @@ export default {
 }
 
 .login-card {
-  /* background: url(../../assets/images/car-repair.jpg); */
   background-size: cover;
   height: 100%;
   width: 100%;
   position: fixed;
 }
 
-/* .back-block {
-  background: url(https://ww2.ufps.edu.co/public/imagenes/noticia/99d3ecda99295bae792dd42378e31d53.jpg);
+.back-block {
+  background: url(../../assets/images/img-login.jpg);
   background-size: cover;
   height: 100%;
   width: 100%;
   position: fixed;
-} */
+}
 
 .wrapper-login {
   z-index: 5;

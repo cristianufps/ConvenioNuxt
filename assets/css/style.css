@@ -2,3 +2,34 @@
     background-color: #dd4b39;
     border-color: #d73925;
 }
+
+.ant-btn-primary:focus {
+    color: #fff;
+    background-color: #dd4b39 !important;
+    border-color: #d73925 !important;
+}
+
+.ant-btn-primary:hover {
+    color: #fff;
+    background-color: #dd4b39 !important;
+    border-color: #d73925 !important;
+}
+
+.ant-menu {
+    background-color: #dd4b39;
+}
+
+.ant-menu-sub {
+    background-color: #ff5a45 !important;
+}
+
+.ant-menu-item-selected {
+    color: #0e0e0e;
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+    border-right: 3px solid #dd4b39;
+}

@@ -1,15 +1,16 @@
 <template>
-  <a-card class="card-forgot">
+  <div class="card-forgot">
     <a-row type="flex" justify="space-around">
-      <a-col :span="11"></a-col>
-      <a-col :span="11">
-        <h5>Recuperar contraseña</h5>
-        <a-form :form="form" class="login-form" @submit="handleSubmit">
-          <label class="label-form">Contraseña nueva</label>
-          <a-form-item>
-            <a-input
-              maxlength="20"
-              v-decorator="[
+      <a-col :span="12" class="mitad-forgot"></a-col>
+      <a-col :span="12">
+        <a-row type="flex" justify="space-around">
+          <a-col :span="11">
+            <a-form :form="form" class="login-form" @submit="handleSubmit">
+              <label class="label-form">Contraseña nueva</label>
+              <a-form-item>
+                <a-input
+                  maxlength="20"
+                  v-decorator="[
           'password',
           {
             rules: [{
@@ -17,14 +18,14 @@
             }],
           }
         ]"
-              type="password"
-            />
-          </a-form-item>
-          <label class="label-form">Confirmar contraseña</label>
-          <a-form-item>
-            <a-input
-              maxlength="20"
-              v-decorator="[
+                  type="password"
+                />
+              </a-form-item>
+              <label class="label-form">Confirmar contraseña</label>
+              <a-form-item>
+                <a-input
+                  maxlength="20"
+                  v-decorator="[
           'confirm',
           {
             rules: [{
@@ -34,18 +35,20 @@
             }],
           }
         ]"
-              type="password"
-            />
-          </a-form-item>
-          <a-form-item class="center">
-            <a-button type="primary" html-type="submit">
-              <b>Guardar cambios</b>
-            </a-button>
-          </a-form-item>
-        </a-form>
+                  type="password"
+                />
+              </a-form-item>
+              <a-form-item class="center">
+                <a-button type="primary" class="login-form-button" html-type="submit">
+                  <b>Guardar cambios</b>
+                </a-button>
+              </a-form-item>
+            </a-form>
+          </a-col>
+        </a-row>
       </a-col>
     </a-row>
-  </a-card>
+  </div>
 </template>
 <script>
 export default {
@@ -109,12 +112,27 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style >
+.mitad-forgot{
+  background: url(../../assets/images/img-reset.jpeg);
+  background-size: cover;
+  height: 100%;
+}
+
 .card-forgot {
   /* background: url(../../assets/images/car-repair.jpg); */
   background-size: cover;
   height: 100%;
   width: 100%;
   position: fixed;
+}
+
+.login-form-button {
+  width: 100%;
+}
+
+.card-forgot > div {
+  height: 100% !important;
+  align-items: center !important;
 }
 </style>
