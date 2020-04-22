@@ -1,20 +1,20 @@
 {
-  "name": "convenio",
-  "version": "1.0.0",
-  "description": "My wicked Nuxt.js project",
-  "author": "ander",
-  "private": true,
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "@nuxtjs/auth": "^4.9.0",
-    "@nuxtjs/axios": "^5.9.5",
-    "ant-design-vue": "^1.1.10",
-    "axios": "^0.19.2",
-    "nuxt": "^2.0.0"
-  }
+    "name": "convenio",
+    "version": "1.0.0",
+    "description": "My wicked Nuxt.js project",
+    "author": "ander",
+    "private": true,
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate"
+    },
+    "dependencies": {
+        "@nuxtjs/auth": "^4.9.0",
+        "@nuxtjs/axios": "^5.9.5",
+        "ant-design-vue": "^1.1.10",
+        "vue-axios": "^2.1.5",
+        "nuxt": "^2.0.0"
+    }
 }
