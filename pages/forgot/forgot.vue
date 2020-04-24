@@ -74,6 +74,7 @@ export default {
       });
     },
     forgot(email) {
+      this.$nuxt.$loading.start();
       let datos = {
         user: email
       };
@@ -85,9 +86,11 @@ export default {
               let msj = res.data.message;
               this.notification("info", "Información", msj);
             }
+            this.$nuxt.$loading.finish();
           }
         })
         .catch(error => {
+          this.$nuxt.$loading.finish();
           this.notification("error", "Error", "Se ha producido un error.");
         });
     },

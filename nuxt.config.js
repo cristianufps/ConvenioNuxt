@@ -40,7 +40,7 @@ export default {
      ** See https://axios.nuxtjs.org/options
      */
     axios: {
-        baseURL: 'https://convenio-273922.uc.r.appspot.com'
+        baseURL: 'http://localhost:8080'
     },
     /*
      ** Login Configuration 

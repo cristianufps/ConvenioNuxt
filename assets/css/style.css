@@ -17,14 +17,16 @@
 
 .ant-menu {
     background-color: #dd4b39;
+    color: #fff !important;
 }
 
 .ant-menu-sub {
     background-color: #ff5a45 !important;
+    color: #fff !important;
 }
 
 .ant-menu-item-selected {
-    color: #0e0e0e;
+    color: #fff !important;
 }
 
 .ant-menu-vertical .ant-menu-item::after,
@@ -32,4 +34,31 @@
 .ant-menu-vertical-right .ant-menu-item::after,
 .ant-menu-inline .ant-menu-item::after {
     border-right: 3px solid #dd4b39;
+}
+
+.ant-menu-item:hover,
+.ant-menu-submenu:hover,
+.ant-menu-submenu:hover,
+.ant-menu-submenu-inline:hover,
+.ant-menu-submenu-open:hover,
+.ant-menu-submenu-title:hover {
+    color: #fff;
+}
+
+body {
+    background: #eff3f5;
+}
+
+.ant-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    margin: 5px;
+    box-shadow: 1px 6px 10px 3px rgba(25, 10, 5, 0.21961);
+}
+
+.ant-menu-inline,
+.ant-menu-vertical,
+.ant-menu-vertical-left {
+    border-right: none;
 }

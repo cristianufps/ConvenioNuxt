@@ -1,7 +1,7 @@
 {
     "name": "convenio",
     "version": "1.0.0",
-    "description": "My wicked Nuxt.js project",
+    "description": "Manejo y control de convenios de la UFPS",
     "author": "ander",
     "private": true,
     "scripts": {

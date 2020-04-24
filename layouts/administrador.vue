@@ -1,21 +1,30 @@
 <template>
-  <div class="felx">
-    <Menu></Menu>
-    <nuxt />
+  <div>
+    <Header class="end"></Header>
+    <div class="felx">
+      <Menu></Menu>
+      <nuxt />
+    </div>
   </div>
 </template>
 <script>
 import Menu from "~/components/menu";
+import Header from "~/components/Header";
 
 export default {
   components: {
-    Menu
+    Menu,
+    Header
   }
 };
 </script>
 <style>
 .felx {
   display: flex;
+}
+
+.end > ul {
+  text-align: end !important;
 }
 
 html {

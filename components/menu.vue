@@ -1,18 +1,11 @@
 <template>
-  <div>
-    <a-button type="primary" @click="toggleCollapsed" style="margin-bottom: 16px">
-      <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" />
-    </a-button>
+  <div class="cont-menu">
     <a-menu
       :defaultSelectedKeys="['1']"
       :defaultOpenKeys="['sub1']"
       mode="inline"
       :inlineCollapsed="collapsed"
     >
-      <a-menu-item key="1" @click="logout">
-        <a-icon type="pie-chart" />
-        <span>Cerrar sesión</span>
-      </a-menu-item>
       <a-menu-item key="2">
         <a-icon type="desktop" />
         <span>Option 2</span>
@@ -65,3 +58,23 @@ export default {
   }
 };
 </script>
+<style scoped>
+.coll {
+  position: absolute;
+  z-index: 10;
+  top: 0px;
+}
+
+.cont-menu {
+  border-radius: 0px 10px 10px 0px;
+  box-shadow: 1px 6px 10px 3px rgba(25, 10, 5, 0.21961);
+  margin-bottom: 5px;
+  background-color: #dd4b39;
+}
+
+.cont-menu > ul {
+  width: 100%;
+  border-radius: 0px 10px 10px 0px;
+  margin: 0 !important;
+}
+</style>
