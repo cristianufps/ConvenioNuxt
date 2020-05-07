@@ -13,7 +13,7 @@
     "dependencies": {
         "@nuxtjs/auth": "^4.9.0",
         "@nuxtjs/axios": "^5.9.5",
-        "ant-design-vue": "^1.1.10",
+        "ant-design-vue": "^1.5.3",
         "vue-axios": "^2.1.5",
         "nuxt": "^2.0.0"
     }

@@ -6,18 +6,30 @@
       mode="inline"
       :inlineCollapsed="collapsed"
     >
-      <a-menu-item key="2">
-        <a-icon type="desktop" />
-        <span>Option 2</span>
-      </a-menu-item>
-      <a-menu-item key="3">
-        <a-icon type="inbox" />
-        <span>Option 3</span>
-      </a-menu-item>
+      <a-sub-menu key="sub0">
+        <span slot="title">
+          <a-icon type="tool" />
+          <span>Predeterminado</span>
+        </span>
+        <a-menu-item key="11">Categorías</a-menu-item>
+        <a-menu-item key="21">Tipo Convenio</a-menu-item>
+        <a-menu-item key="31">Option 7</a-menu-item>
+      </a-sub-menu>
+
       <a-sub-menu key="sub1">
         <span slot="title">
-          <a-icon type="mail" />
-          <span>Navigation One</span>
+          <a-icon type="apartment" />
+          <span>Empresas</span>
+        </span>
+        <a-menu-item key="111">
+          <nuxt-link to="/company/list-company">Empresas registradas</nuxt-link>
+        </a-menu-item>
+        <a-menu-item key="211">Representante legal</a-menu-item>
+      </a-sub-menu>
+      <a-sub-menu key="sub1">
+        <span slot="title">
+          <a-icon type="link" />
+          <span>Convenios</span>
         </span>
         <a-menu-item key="5">Option 5</a-menu-item>
         <a-menu-item key="6">Option 6</a-menu-item>
@@ -26,8 +38,8 @@
       </a-sub-menu>
       <a-sub-menu key="sub2">
         <span slot="title">
-          <a-icon type="appstore" />
-          <span>Navigation Two</span>
+          <a-icon type="schedule" />
+          <span>Alertas Tempranas</span>
         </span>
         <a-menu-item key="9">Option 9</a-menu-item>
         <a-menu-item key="10">Option 10</a-menu-item>

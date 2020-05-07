@@ -7,7 +7,7 @@
         <span slot="title" class="submenu-title-wrapper">
           <a-icon type="setting" />Ajustes
         </span>
-        <a-menu-item key="setting:1">Cambiar contraseña</a-menu-item>
+        <a-menu-item key="setting:1"><nuxt-link to="/profile/update-password"> Cambiar contraseña</nuxt-link></a-menu-item>
         <a-menu-item key="setting:2">Editar perfil</a-menu-item>
         <a-menu-item key="setting:3">
           <a-icon type="logout" />Cerrar sesión

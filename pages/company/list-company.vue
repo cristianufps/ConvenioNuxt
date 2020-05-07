@@ -1,5 +1,15 @@
 <template>
-  <a-card title="Pantalla principal">
+  <a-card>
+    <a-row slot="title" type="flex" justify="space-around">
+      <a-col :span="20">
+        <h3>Empresas</h3>
+      </a-col>
+      <a-col :span="4">
+        <nuxt-link to="/company/company">
+          <a-button type="primary">Registrar Empresa</a-button>
+        </nuxt-link>
+      </a-col>
+    </a-row>
     <a-table :dataSource="data" :columns="columns">
       <div
         slot="filterDropdown"
@@ -51,7 +61,7 @@
     <!-- <img
       src="https://storage.googleapis.com/convenio-273922.appspot.com/imagenes_perfil/pant-blo.jpg"
       alt
-    /> -->
+    />-->
   </a-card>
 </template>
 <script>
