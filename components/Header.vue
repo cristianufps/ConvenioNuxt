@@ -2,7 +2,7 @@
   <div>
     <a-menu v-model="current" mode="horizontal" style="text-align:end;">
       <a-menu-item key="mail">
-        <nuxt-link to="/profile/update-profile">{{ nombre }} {{ apellido }}</nuxt-link>
+        <nuxt-link to="/profile/update-profile">{{ nombreUsuario }}</nuxt-link>
       </a-menu-item>
       <a-sub-menu>
         <span slot="title" class="submenu-title-wrapper">
@@ -11,8 +11,10 @@
         <a-menu-item key="setting:1">
           <nuxt-link to="/profile/update-password">Cambiar contraseña</nuxt-link>
         </a-menu-item>
-        <a-menu-item key="setting:2">Editar perfil</a-menu-item>
-        <a-menu-item key="setting:3">
+        <a-menu-item key="setting:2">
+          <nuxt-link to="/profile/update-profile">Editar perfil</nuxt-link>
+        </a-menu-item>
+        <a-menu-item key="setting:3" @click="logout">
           <a-icon type="logout" />Cerrar sesión
         </a-menu-item>
       </a-sub-menu>
@@ -20,15 +22,25 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   beforeMount() {
     console.log("STATE", this.$auth.$state.user.usua_nombres);
   },
+  computed: {
+    ...mapState({
+      nombreUsuario: state => {
+        if (state.auth.user != false) {
+          return (
+            state.auth.user.usua_nombres + " " + state.auth.user.usua_apellidos
+          );
+        }
+      }
+    })
+  },
   data() {
     return {
       idLogged: this.$auth.$state.user.usua_id,
-      nombre: this.$auth.$state.user.usua_nombres,
-      apellido: this.$auth.$state.user.usua_apellidos,
       current: ["mail"]
     };
   },

@@ -14,6 +14,9 @@
                 required: true,
                 message: 'Please input your E-mail!',
               },
+              {
+                validator: validatePassword,
+              },
             ],
           },
         ]"
@@ -27,7 +30,7 @@
             rules: [
               {
                 required: true,
-                message: 'Please input your password!',
+                message: 'Este campo es obligatorio',
               },
               {
                 validator: validateToNextPassword,
@@ -60,7 +63,9 @@
           </a-form-item>
 
           <a-form-item v-bind="tailFormItemLayout">
-            <a-button type="primary" html-type="submit">Confirmar</a-button>
+            <a-button type="primary" html-type="submit">
+              <b>Confirmar</b>
+            </a-button>
           </a-form-item>
         </a-form>
       </a-col>
@@ -108,6 +113,7 @@ export default {
   layout: "administrador",
   data() {
     return {
+      idLogged: this.$auth.$state.user.usua_id,
       confirmDirty: false,
       residences,
       autoCompleteResult: [],
@@ -139,11 +145,18 @@ export default {
     this.form = this.$form.createForm(this, { name: "register" });
   },
   methods: {
+    notification(type, title, mensaje) {
+      this.$notification[type]({
+        message: title,
+        description: mensaje
+      });
+    },
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
+          this.updatePassword(values);
         }
       });
     },
@@ -176,6 +189,50 @@ export default {
         );
       }
       this.autoCompleteResult = autoCompleteResult;
+    },
+    validatePassword(rule, value, callback) {
+      let id = this.idLogged;
+      this.$axios("/validate_password/" + id + "/" + value)
+        .then(res => {
+          if (res) {
+            if (res.data.response) {
+              callback();
+            } else {
+              callback("Contraseña actual no coincide!");
+            }
+          }
+        })
+        .catch(err => {
+          callback("Contraseña actual no coincide!");
+        });
+    },
+    updatePassword(datos) {
+      this.$nuxt.$loading.start();
+
+      let body = {
+        actualPassword: datos.password_actual,
+        newPassword: datos.password
+      };
+      let id = this.idLogged;
+      this.$axios
+        .put("/update_password/" + id, body)
+        .then(res => {
+          if (res) {
+            if (res.status == 200) {
+              this.notification("success", "Información", res.data.message);
+              this.form.resetFields();
+              this.$nuxt.$loading.finish();
+            }
+          }
+        })
+        .catch(err => {
+          this.notification(
+            "error",
+            "Error",
+            "Se ha producido un error actualizando la contraseña."
+          );
+          this.$nuxt.$loading.finish();
+        });
     }
   }
 };

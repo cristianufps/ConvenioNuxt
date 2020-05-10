@@ -137,6 +137,11 @@ const residences = [
 ];
 
 export default {
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
+  },
   layout: "administrador",
   beforeMount() {
     this.getUser();
@@ -192,12 +197,17 @@ export default {
       this.$axios("/user_by_id/" + this.idLogged)
         .then(res => {
           if (res.status == 200) {
-            console.log("res ", res);
             this.usuario = res.data.usuario;
+            this.$nuxt.$loading.finish();
           }
         })
         .catch(err => {
-          console.log("error");
+          this.$nuxt.$loading.finish();
+          this.notification(
+            "error",
+            "Error",
+            "Se ha producido un error obteniendo Información."
+          );
         });
     },
     updateProfile(user) {
@@ -206,6 +216,7 @@ export default {
         .put("/update_profile/" + this.idLogged, user)
         .then(res => {
           if (res.status == 200) {
+            this.$auth.fetchUser();
             this.notification(
               "success",
               "Información",
@@ -216,9 +227,9 @@ export default {
         })
         .catch(err => {
           this.notification(
-            "success",
-            "Información",
-            "Se ha editado el perfil correctamente"
+            "error",
+            "Error",
+            "Se ha producido un error editando el perfil."
           );
           this.$nuxt.$loading.finish();
         });
@@ -244,7 +255,6 @@ export default {
         }
       });
     },
-
     notification(type, title, mensaje) {
       this.$notification[type]({
         message: title,

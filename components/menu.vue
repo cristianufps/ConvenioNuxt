@@ -38,14 +38,14 @@
         <a-menu-item key="6">Option 6</a-menu-item>
         <a-menu-item key="7">Option 7</a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="sub2">
+      <a-sub-menu key="sub3">
         <span slot="title">
           <a-icon type="schedule" />
           <span>Alertas Tempranas</span>
         </span>
         <a-menu-item key="9">Option 9</a-menu-item>
         <a-menu-item key="10">Option 10</a-menu-item>
-        <a-sub-menu key="sub3" title="Submenu">
+        <a-sub-menu key="sub4" title="Submenu">
           <a-menu-item key="11">Option 11</a-menu-item>
           <a-menu-item key="12">Option 12</a-menu-item>
         </a-sub-menu>
