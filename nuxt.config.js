@@ -37,7 +37,7 @@ export default {
     ],
     /*  
      ** Axios module configuration
-     ** See https://axios.nuxtjs.org/options
+     ** See https://axios.nuxtjs.org/optionss
      ** https://convenio-273922.uc.r.appspot.com
      ** http://localhost:8080
      */
