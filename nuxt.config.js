@@ -38,9 +38,11 @@ export default {
     /*  
      ** Axios module configuration
      ** See https://axios.nuxtjs.org/options
+     ** https://convenio-273922.uc.r.appspot.com
+     ** http://localhost:8080
      */
     axios: {
-        baseURL: 'http://localhost:8080'
+        baseURL: 'https://convenio-273922.uc.r.appspot.com'
     },
     /*
      ** Login Configuration 

@@ -13,7 +13,6 @@
         </span>
         <a-menu-item key="11">Categorías</a-menu-item>
         <a-menu-item key="21">Tipo Convenio</a-menu-item>
-        <a-menu-item key="31">Option 7</a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="sub1">
@@ -24,17 +23,20 @@
         <a-menu-item key="111">
           <nuxt-link to="/company/list-company">Empresas registradas</nuxt-link>
         </a-menu-item>
-        <a-menu-item key="211">Representante legal</a-menu-item>
+        <a-menu-item key="211">
+          <nuxt-link to="/legal-representant/list-representant">Representante legal</nuxt-link>
+        </a-menu-item>
       </a-sub-menu>
-      <a-sub-menu key="sub1">
+      <a-sub-menu key="sub2">
         <span slot="title">
           <a-icon type="link" />
           <span>Convenios</span>
         </span>
-        <a-menu-item key="5">Option 5</a-menu-item>
+        <a-menu-item key="5">
+          <nuxt-link to="/agreement/list-agreement">Convenios registrados</nuxt-link>
+        </a-menu-item>
         <a-menu-item key="6">Option 6</a-menu-item>
         <a-menu-item key="7">Option 7</a-menu-item>
-        <a-menu-item key="8">Option 8</a-menu-item>
       </a-sub-menu>
       <a-sub-menu key="sub2">
         <span slot="title">

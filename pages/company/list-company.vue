@@ -2,7 +2,7 @@
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
       <a-col :span="20">
-        <h3>Empresas</h3>
+        <h3 class="card-title">Empresas</h3>
       </a-col>
       <a-col :span="4">
         <nuxt-link to="/company/company">
@@ -190,3 +190,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.card-title {
+  color: red;
+}
+</style>

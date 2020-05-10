@@ -2,11 +2,11 @@
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
       <a-col :span="20">
-        <h3 class="card-title">Representante legal</h3>
+        <h3 class="card-title">Convenios</h3>
       </a-col>
       <a-col :span="4">
-        <nuxt-link to="/legal-representant/form/">
-          <a-button type="primary">Registrar Representante</a-button>
+        <nuxt-link to="/agreement/form/">
+          <a-button type="primary">Registrar Convenio</a-button>
         </nuxt-link>
       </a-col>
     </a-row>

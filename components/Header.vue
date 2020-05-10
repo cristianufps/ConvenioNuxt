@@ -1,13 +1,16 @@
 <template>
   <div>
     <a-menu v-model="current" mode="horizontal" style="text-align:end;">
-      <a-menu-item key="mail">{{ nombre }} {{ apellido }}</a-menu-item>
-
+      <a-menu-item key="mail">
+        <nuxt-link to="/profile/update-profile">{{ nombre }} {{ apellido }}</nuxt-link>
+      </a-menu-item>
       <a-sub-menu>
         <span slot="title" class="submenu-title-wrapper">
           <a-icon type="setting" />Ajustes
         </span>
-        <a-menu-item key="setting:1"><nuxt-link to="/profile/update-password"> Cambiar contraseña</nuxt-link></a-menu-item>
+        <a-menu-item key="setting:1">
+          <nuxt-link to="/profile/update-password">Cambiar contraseña</nuxt-link>
+        </a-menu-item>
         <a-menu-item key="setting:2">Editar perfil</a-menu-item>
         <a-menu-item key="setting:3">
           <a-icon type="logout" />Cerrar sesión
@@ -23,6 +26,7 @@ export default {
   },
   data() {
     return {
+      idLogged: this.$auth.$state.user.usua_id,
       nombre: this.$auth.$state.user.usua_nombres,
       apellido: this.$auth.$state.user.usua_apellidos,
       current: ["mail"]
@@ -39,5 +43,9 @@ export default {
 <style>
 .end {
   text-align: end !important;
+}
+
+.ant-menu-horizontal > .ant-menu-item-selected > a {
+  color: #fff;
 }
 </style>

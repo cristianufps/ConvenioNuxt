@@ -1,36 +1,61 @@
 <template>
-  <a-card title="Empresa">
+  <a-card title="Registrar Convenio">
     <a-form :form="form" @submit="handleSubmit">
-      <a-form-item v-bind="formItemLayout" label="Nit">
-        <a-input
-          v-decorator="[
-          'nit',
-          {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ],
-          },
-        ]"
-        />
-      </a-form-item>
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Nombre</span>
         <a-input
           v-decorator="[
-          'nickname',
+          'nombre',
           {
             rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
           },
         ]"
         />
       </a-form-item>
-      <a-form-item v-bind="formItemLayout" label="Telefono">
+      <a-form-item v-bind="formItemLayout" label="Tipo Convenio">
+        <a-select
+          @change="typeAgreement"
+          v-decorator="[
+          'select',
+          { rules: [{ required: true, message: 'Please select your country!' }] },
+        ]"
+          placeholder="Seleccione tipo de convenio"
+        >
+          <a-select-option value="1">Macro</a-select-option>
+          <a-select-option value="2">Especifico</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item v-show="parent" v-bind="formItemLayout" label="Convenio padre">
+        <a-select
+          v-decorator="[
+          'padre',
+          { rules: [{ required: false, message: 'Please select your country!' }] },
+        ]"
+          placeholder="Por favor seleccione un convenio Macro (opcional)"
+        >
+          <a-select-option value="china">China</a-select-option>
+          <a-select-option value="usa">U.S.A</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item v-bind="formItemLayout" label="Categoria">
+        <a-select
+          v-decorator="[
+          'categoria',
+          { rules: [{ required: true, message: 'Please select your country!' }] },
+        ]"
+          placeholder="Seleccione categoria"
+        >
+          <a-select-option value="china">Macro</a-select-option>
+          <a-select-option value="usa">Especifico</a-select-option>
+        </a-select>
+      </a-form-item>
+      <a-form-item v-bind="formItemLayout" label="Fecha inicial">
+        <a-date-picker v-decorator="['date-picker', config]" />
+      </a-form-item>
+      <a-form-item v-bind="formItemLayout" label="Duración">
         <a-input
           v-decorator="[
-          'phone',
+          'duracion',
           {
             rules: [{ required: true, message: 'Please input your phone number!' }],
           },
@@ -40,36 +65,36 @@
           <a-select
             slot="addonBefore"
             v-decorator="['prefix', { initialValue: '57' }]"
-            style="width: 70px"
+            style="width: 100px"
           >
-            <a-select-option value="57">+57</a-select-option>
-            <a-select-option value="86">+86</a-select-option>
-            <a-select-option value="87">+87</a-select-option>
+            <a-select-option value="57">Años</a-select-option>
+            <a-select-option value="86">Meses</a-select-option>
           </a-select>
         </a-input>
       </a-form-item>
       <a-form-item v-bind="formItemLayout">
-        <span slot="label">Dirección</span>
+        <span slot="label">Costo</span>
         <a-input
           v-decorator="[
-          'address',
+          'costo',
+          {
+            rules: [{ required: false, message: 'Please input your nickname!', whitespace: true }],
+          },
+        ]"
+        />
+      </a-form-item>
+      <a-form-item v-bind="formItemLayout">
+        <span slot="label">Razón o descripción</span>
+        <a-textarea
+          placeholder="Descripcion"
+          :auto-size="{ minRows: 3, maxRows: 5 }"
+          v-decorator="[
+          'descripcion',
           {
             rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
           },
         ]"
         />
-      </a-form-item>
-      <a-form-item v-bind="formItemLayout" label="Representante legal">
-        <a-select
-          v-decorator="[
-          'select',
-          { rules: [{ required: true, message: 'Please select your country!' }] },
-        ]"
-          placeholder="Por favor seleccione un Representante"
-        >
-          <a-select-option value="china">China</a-select-option>
-          <a-select-option value="usa">U.S.A</a-select-option>
-        </a-select>
       </a-form-item>
       <a-form-item v-bind="tailFormItemLayout">
         <a-button type="primary" html-type="submit">Registrar</a-button>
@@ -118,9 +143,15 @@ export default {
   layout: "administrador",
   data() {
     return {
+      parent: false,
       confirmDirty: false,
       residences,
       autoCompleteResult: [],
+      config: {
+        rules: [
+          { type: "object", required: true, message: "Please select time!" }
+        ]
+      },
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
@@ -186,6 +217,14 @@ export default {
         );
       }
       this.autoCompleteResult = autoCompleteResult;
+    },
+    typeAgreement(e) {
+      console.log("--> ", e);
+      if (e == 1) {
+        this.parent = false;
+      } else {
+        this.parent = true;
+      }
     }
   }
 };

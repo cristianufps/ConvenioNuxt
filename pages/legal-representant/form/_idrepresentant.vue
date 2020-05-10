@@ -1,23 +1,19 @@
 <template>
-  <a-card title="Empresa">
+  <a-card title="Representante legal">
     <a-form :form="form" @submit="handleSubmit">
-      <a-form-item v-bind="formItemLayout" label="Nit">
+      <a-form-item v-bind="formItemLayout">
+        <span slot="label">Documento</span>
         <a-input
           v-decorator="[
-          'nit',
+          'documento',
           {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ],
+            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
           },
         ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout">
-        <span slot="label">Nombre</span>
+        <span slot="label">Nombres</span>
         <a-input
           v-decorator="[
           'nickname',
@@ -27,7 +23,37 @@
         ]"
         />
       </a-form-item>
-      <a-form-item v-bind="formItemLayout" label="Telefono">
+      <a-form-item v-bind="formItemLayout">
+        <span slot="label">Apellidos</span>
+        <a-input
+          v-decorator="[
+          'apellidos',
+          {
+            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+          },
+        ]"
+        />
+      </a-form-item>
+      <a-form-item v-bind="formItemLayout" label="E-mail">
+        <a-input
+          v-decorator="[
+          'email',
+          {
+            rules: [
+              {
+                type: 'email',
+                message: 'The input is not valid E-mail!',
+              },
+              {
+                required: true,
+                message: 'Please input your E-mail!',
+              },
+            ],
+          },
+        ]"
+        />
+      </a-form-item>
+      <a-form-item v-bind="formItemLayout" label="Celular">
         <a-input
           v-decorator="[
           'phone',
@@ -59,20 +85,8 @@
         ]"
         />
       </a-form-item>
-      <a-form-item v-bind="formItemLayout" label="Representante legal">
-        <a-select
-          v-decorator="[
-          'select',
-          { rules: [{ required: true, message: 'Please select your country!' }] },
-        ]"
-          placeholder="Por favor seleccione un Representante"
-        >
-          <a-select-option value="china">China</a-select-option>
-          <a-select-option value="usa">U.S.A</a-select-option>
-        </a-select>
-      </a-form-item>
       <a-form-item v-bind="tailFormItemLayout">
-        <a-button type="primary" html-type="submit">Registrar</a-button>
+        <a-button type="primary" html-type="submit">Register</a-button>
       </a-form-item>
     </a-form>
   </a-card>
