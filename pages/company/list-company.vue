@@ -5,7 +5,7 @@
         <h3 class="card-title">Empresas</h3>
       </a-col>
       <a-col :span="4">
-        <nuxt-link to="/company/company">
+        <nuxt-link to="/admin/category/category-list">
           <a-button type="primary">Registrar Empresa</a-button>
         </nuxt-link>
       </a-col>

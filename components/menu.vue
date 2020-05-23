@@ -11,8 +11,12 @@
           <a-icon type="tool" />
           <span>Predeterminado</span>
         </span>
-        <a-menu-item key="11">Categorías</a-menu-item>
-        <a-menu-item key="21">Tipo Convenio</a-menu-item>
+        <a-menu-item key="11">
+          <nuxt-link to="/admin/category/category-list">Categorías</nuxt-link>
+        </a-menu-item>
+        <a-menu-item key="21">
+          <nuxt-link to="/admin/agreement-type/agreement-type-list">Tipo Convenio
+          </nuxt-link></a-menu-item>
       </a-sub-menu>
 
       <a-sub-menu key="sub1">
@@ -49,6 +53,16 @@
           <a-menu-item key="11">Option 11</a-menu-item>
           <a-menu-item key="12">Option 12</a-menu-item>
         </a-sub-menu>
+      </a-sub-menu>
+      <a-sub-menu key="sub4">
+        <span slot="title">
+          <a-icon type="user" />
+          <span>Usuarios</span>
+        </span>
+        <a-menu-item key="144">
+          <nuxt-link to="/users/list-users">Usuarios registrados</nuxt-link>
+        </a-menu-item>
+        <a-menu-item key="146">Option 6</a-menu-item>
       </a-sub-menu>
     </a-menu>
   </div>

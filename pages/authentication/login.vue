@@ -14,9 +14,13 @@
         </div>
         <a-form-item>
           <a-input
+            autocomplete="off"
             v-decorator="[
           'userName',
-          { rules: [{ required: true, message: 'Por favor ingrese su correo!' }] },
+          { rules: [              {
+                type: 'email',
+                message: 'Ingrese un correo valido!',
+              },{ required: true, message: 'Por favor ingrese su correo!' }] },
         ]"
             placeholder="Correo"
           >

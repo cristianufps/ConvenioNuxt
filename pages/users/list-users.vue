@@ -1,16 +1,16 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="19">
-        <h3 class="card-title">Tipos de convenios</h3>
+      <a-col :span="20">
+        <h3 class="card-title">Usuarios</h3>
       </a-col>
-      <a-col :span="5">
-        <nuxt-link to="/admin/agreement-type/form-type-agreement">
-          <a-button type="primary">Registrar tipo de convenio</a-button>
+      <a-col :span="4">
+        <nuxt-link to="/users/form">
+          <a-button type="primary">Registrar Usuario</a-button>
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="typeAgreementList" :columns="columns">
+    <a-table :dataSource="users" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -52,20 +52,20 @@
               class="highlight"
             >
               <nuxt-link
-                :to="{name: 'admin-agreement-type-form-type-agreement-idtype_agreement', params: { idtype_agreement: record.tico_id } }"
+                :to="{name: 'users-form-iduser', params: { iduser: record.usua_id } }"
               >{{ fragment }}</nuxt-link>
             </mark>
             <template v-else>
               <nuxt-link
                 :key="i"
-                :to="{name: 'admin-agreement-type-form-type-agreement-idtype_agreement', params: { idtype_agreement: record.tico_id } }"
+                :to="{name: 'users-form-iduser', params: { iduser: record.usua_id } }"
               >{{ fragment }}</nuxt-link>
             </template>
           </template>
         </span>
         <template v-else>
           <nuxt-link
-            :to="{name: 'admin-agreement-type-form-type-agreement-idtype_agreement', params: { idtype_agreement: record.tico_id } }"
+            :to="{name: 'users-form-iduser', params: { iduser: record.usua_id } }"
           >{{ text }}</nuxt-link>
         </template>
       </template>
@@ -75,33 +75,32 @@
 <script>
 export default {
   mounted() {
-    setTimeout(() => {
-      // Extend loader for an additional 5s
-      this.$nuxt.$loading.finish();
-    }, 10000);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
   },
   beforeMount() {
-    this.listTypeAgreement();
+    this.listUsers();
   },
   layout: "administrador",
   data() {
     return {
-      typeAgreementList: [],
+      users: [],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
       columns: [
         {
-          title: "Nombre",
-          dataIndex: "tico_nombre",
-          key: "tico_nombre",
+          title: "Nombres",
+          dataIndex: "usua_nombres",
+          key: "usua_nombres",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.tico_nombre
+            record.usua_nombres
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -112,18 +111,55 @@ export default {
               }, 0);
             }
           }
+        },
+        {
+          title: "Apellidos",
+          dataIndex: "usua_apellidos",
+          key: "usua_apellidos",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender"
+          },
+          onFilter: (value, record) =>
+            record.usua_apellidos
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          }
+        },
+        {
+          title: "Correo",
+          dataIndex: "usua_correo",
+          key: "usua_correo",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender"
+          },
+          onFilter: (value, record) =>
+            record.usua_correo
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          }
         }
       ]
     };
   },
   methods: {
-    openNotification(type, title, description) {
-      this.$notification[type]({
-        message: title,
-        description: description,
-        duration: 5
-      });
-    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
@@ -133,16 +169,18 @@ export default {
       clearFilters();
       this.searchText = "";
     },
-    listTypeAgreement() {
-      this.$axios("/list_type_agreement")
+    listUsers() {
+      this.$axios("/usuarios")
         .then(res => {
-          console.log("res -Z ", res);
           if (res) {
-            this.typeAgreementList = res.data.data;
+            console.log(res);
+            this.users = res.data.usuario;
           }
+          this.$nuxt.$loading.finish();
         })
         .catch(err => {
-          this.openNotification("error", "Error", "Se ha producido un error.");
+          console.log(err);
+          this.$nuxt.$loading.finish();
         });
     }
   }

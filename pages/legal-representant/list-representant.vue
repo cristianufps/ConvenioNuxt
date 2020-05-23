@@ -1,16 +1,18 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="20">
+      <a-col :span="19">
         <h3 class="card-title">Representante legal</h3>
       </a-col>
-      <a-col :span="4">
+      <a-col :span="5">
         <nuxt-link to="/legal-representant/form/">
-          <a-button type="primary">Registrar Representante</a-button>
+          <a-button type="primary">
+            <b>Registrar Representante</b>
+          </a-button>
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="data" :columns="columns">
+    <a-table :dataSource="legalRepresentants" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -50,74 +52,57 @@
               v-if="fragment.toLowerCase() === searchText.toLowerCase()"
               :key="i"
               class="highlight"
-            >{{ fragment }}</mark>
-            <template v-else>{{ fragment }}</template>
+            >
+              <nuxt-link
+                :to="{name: 'legal-representant-form-idrepresentant', params: { idrepresentant: record.rele_id } }"
+              >{{ fragment }}</nuxt-link>
+            </mark>
+            <template v-else>
+              <nuxt-link
+                :key="i"
+                :to="{name: 'legal-representant-form-idrepresentant', params: { idrepresentant: record.rele_id } }"
+              >{{ fragment }}</nuxt-link>
+            </template>
           </template>
         </span>
-        <template v-else>{{ text }}</template>
+        <template v-else>
+          <nuxt-link
+            :to="{name: 'legal-representant-form-idrepresentant', params: { idrepresentant: record.rele_id } }"
+          >{{ text }}</nuxt-link>
+        </template>
       </template>
     </a-table>
-
-    <!-- <img
-      src="https://storage.googleapis.com/convenio-273922.appspot.com/imagenes_perfil/pant-blo.jpg"
-      alt
-    />-->
   </a-card>
 </template>
 <script>
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park"
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park"
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sidney No. 1 Lake Park"
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park"
-  }
-];
-
 export default {
   mounted() {
-    setTimeout(() => {
-      // Extend loader for an additional 5s
-      this.$nuxt.$loading.finish();
-    }, 10000);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
+  },
+  beforeMount() {
+    this.listLegalRepresentant();
   },
   layout: "administrador",
   data() {
     return {
-      data,
+      legalRepresentants: [],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
       columns: [
         {
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
+          title: "Nombres",
+          dataIndex: "rele_nombres",
+          key: "rele_nombres",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.name
+            record.rele_nombres
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -130,16 +115,16 @@ export default {
           }
         },
         {
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "Apellidos",
+          dataIndex: "rele_apellidos",
+          key: "rele_apellidos",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.age
+            record.rele_apellidos
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -152,16 +137,16 @@ export default {
           }
         },
         {
-          title: "Address",
-          dataIndex: "address",
-          key: "address",
+          title: "Celular",
+          dataIndex: "rele_celular",
+          key: "rele_celular",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.address
+            record.rele_celular
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -177,12 +162,25 @@ export default {
     };
   },
   methods: {
+    listLegalRepresentant() {
+      this.$axios("/list_legal_representant")
+        .then(res => {
+          console.log("res -Z ", res);
+          if (res) {
+            this.legalRepresentants = res.data.data;
+          }
+          this.$nuxt.$loading.finish();
+        })
+        .catch(err => {
+          this.$nuxt.$loading.finish();
+          this.openNotification("error", "Error", "Se ha producido un error.");
+        });
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
       this.searchedColumn = dataIndex;
     },
-
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = "";
