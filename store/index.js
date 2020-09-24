@@ -1,11 +1,10 @@
 export const state = () => ({
     counter: 0,
-    globalVariable: 'penerson'
+    drawerApp: false
 })
 
 export const mutations = {
-    cambiarVariable(state, valor) {
-        // mutate state
-        state.globalVariable = valor
+    setDrawer(state, valor) {
+        state.drawerApp = valor
     }
 }

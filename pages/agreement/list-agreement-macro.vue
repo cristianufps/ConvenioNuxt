@@ -1,18 +1,18 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :xs="16" :sm="16" :md="19" :lg="19" :xl="19">
-        <h3 class="card-title">Representante legal</h3>
+      <a-col :xs="11" :sm="11" :md="20" :lg="20" :xl="20">
+        <h3 class="card-title">Convenios Macro</h3>
       </a-col>
-      <a-col :xs="8" :sm="8" :md="5" :lg="5" :xl="5">
-        <nuxt-link to="/legal-representant/form/">
+      <a-col :xs="13" :sm="13" :md="4" :lg="4" :xl="4">
+        <!-- <nuxt-link to="/agreement/form/">
           <a-button type="primary">
-            <b class="btn-text-res"></b>
+            <b>Registrar Convenio</b>
           </a-button>
-        </nuxt-link>
+        </nuxt-link>-->
       </a-col>
     </a-row>
-    <a-table rowKey="rele_id" :dataSource="legalRepresentants" :columns="columns">
+    <a-table :dataSource="agreements" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -54,20 +54,20 @@
               class="highlight"
             >
               <nuxt-link
-                :to="{name: 'legal-representant-form-idrepresentant', params: { idrepresentant: record.rele_id } }"
+                :to="{name: 'agreement-form-idagreement', params: { idagreement: record.conv_id } }"
               >{{ fragment }}</nuxt-link>
             </mark>
             <template v-else>
               <nuxt-link
                 :key="i"
-                :to="{name: 'legal-representant-form-idrepresentant', params: { idrepresentant: record.rele_id } }"
+                :to="{name: 'agreement-form-idagreement', params: { idagreement: record.conv_id } }"
               >{{ fragment }}</nuxt-link>
             </template>
           </template>
         </span>
         <template v-else>
           <nuxt-link
-            :to="{name: 'legal-representant-form-idrepresentant', params: { idrepresentant: record.rele_id } }"
+            :to="{name: 'agreement-form-idagreement', params: { idagreement: record.conv_id } }"
           >{{ text }}</nuxt-link>
         </template>
       </template>
@@ -82,27 +82,27 @@ export default {
     });
   },
   beforeMount() {
-    this.listLegalRepresentant();
+    this.listAgreements();
   },
   layout: "administrador",
   data() {
     return {
-      legalRepresentants: [],
+      agreements: [],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
       columns: [
         {
-          title: "Nombres",
-          dataIndex: "rele_nombres",
-          key: "rele_nombres",
+          title: "Nombre",
+          dataIndex: "conv_nombre",
+          key: "conv_nombre",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.rele_nombres
+            record.conv_nombre
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -115,16 +115,38 @@ export default {
           }
         },
         {
-          title: "Apellidos",
-          dataIndex: "rele_apellidos",
-          key: "rele_apellidos",
+          title: "Empresa",
+          dataIndex: "empr_nombre",
+          key: "empr_nombre",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.rele_apellidos
+            record.empr_nombre
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              }, 0);
+            }
+          }
+        },
+        {
+          title: "Tipo Convenio",
+          dataIndex: "tico_nombre",
+          key: "tico_nombre",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender"
+          },
+          onFilter: (value, record) =>
+            record.tico_nombre
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -137,16 +159,16 @@ export default {
           }
         },
         {
-          title: "Celular",
-          dataIndex: "rele_celular",
-          key: "rele_celular",
+          title: "Fecha final",
+          dataIndex: "conv_fechafinal",
+          key: "conv_fechafinal",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.rele_celular
+            record.conv_fechafinal
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -169,20 +191,6 @@ export default {
         duration: 5
       });
     },
-    listLegalRepresentant() {
-      this.$axios("/list_legal_representant")
-        .then(res => {
-          console.log("res -Z ", res);
-          if (res) {
-            this.legalRepresentants = res.data.data;
-          }
-          this.$nuxt.$loading.finish();
-        })
-        .catch(err => {
-          this.$nuxt.$loading.finish();
-          this.openNotification("error", "Error", "Se ha producido un error.");
-        });
-    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
@@ -191,6 +199,24 @@ export default {
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = "";
+    },
+    listAgreements() {
+      this.$axios("list_agreements_parents")
+        .then(res => {
+          console.log("list ", res);
+          if (res.status == 200) {
+            this.agreements = res.data.data;
+          }
+          this.$nuxt.$loading.finish();
+        })
+        .catch(err => {
+          this.openNotification(
+            "error",
+            "Error",
+            "Se ha producido un error listando los convenios"
+          );
+          this.$nuxt.$loading.finish();
+        });
     }
   }
 };
@@ -198,14 +224,5 @@ export default {
 <style scoped>
 .card-title {
   color: red;
-}
-.btn-text-res:after {
-  content: "Registrar Representante";
-}
-
-@media (max-width: 767px) and (min-width: 200px) {
-  .btn-text-res:after {
-    content: "Registrar";
-  }
 }
 </style>

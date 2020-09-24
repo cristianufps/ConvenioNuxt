@@ -2,7 +2,7 @@
   <a-card>
     <a-row type="flex" justify="end">
       <a-col :xs="20" :sm="20" :md="22" :lg="22" :xl="22">
-        <h2 v-if="idCategory" class="form-title">Editar Tipo Convenio</h2>
+        <h2 v-if="idTypeAgreement" class="form-title">Editar Tipo Convenio</h2>
         <h2 v-else class="form-title">Registrar Tipo Convenio</h2>
       </a-col>
 
@@ -28,7 +28,7 @@
           }
         ]"
               @change="validationLetters"
-              :maxLength="150"
+              :maxLength="45"
               autocomplete="off"
             />
           </a-form-item>
@@ -52,6 +52,17 @@
 <script>
 export default {
   layout: "administrador",
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+
+      if (!this.idTypeAgreement) {
+        setTimeout(function() {
+          this.$nuxt.$loading.finish();
+        }, 1000);
+      }
+    });
+  },
   beforeMount() {
     if (this.idTypeAgreement) {
       this.getTypeAgreement();
@@ -95,35 +106,15 @@ export default {
       this.$axios
         .$put("/update_type_agreement/" + this.idTypeAgreement, datos)
         .then(res => {
-          if (res.error) {
-            this.openNotification(
-              "info",
-              "Información",
-              "la Tipo Convenio ya se encuentra registrada."
-            );
-          } else {
-            this.openNotification(
-              "success",
-              "Información",
-              "Se ha editado la Tipo Convenio satisfactoriamente."
-            );
-            this.$router.push("/admin/agreement-type/agreement-type-list");
-          }
+          this.openNotification(
+            "success",
+            "Información",
+            "Se ha editado EL Tipo Convenio satisfactoriamente."
+          );
+          this.$router.push("/admin/agreement-type/agreement-type-list");
         })
         .catch(error => {
-          if (error.message == "Request failed with status code 422") {
-            this.openNotification(
-              "info",
-              "Información",
-              "El área ya se encuentra registrada."
-            );
-          } else {
-            this.openNotification(
-              "error",
-              "Error",
-              "Se ha producido un error."
-            );
-          }
+          this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
     registerTypeAgreement(datos) {
@@ -134,7 +125,7 @@ export default {
             this.openNotification(
               "success",
               "Información",
-              "Se ha registrado la Tipo Convenio satisfactoriamente."
+              "Se ha registrado el Tipo Convenio satisfactoriamente."
             );
             this.$router.push("/admin/agreement-type/agreement-type-list");
           }

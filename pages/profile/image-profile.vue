@@ -68,7 +68,6 @@ export default {
       });
     },
     updateImgProfile() {
-      console.log("updateImgProfile ");
       this.$nuxt.$loading.start();
       var img = new FormData();
       img.append("image", this.imgUpdate);

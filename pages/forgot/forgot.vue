@@ -1,10 +1,10 @@
 <template>
   <div class="card-forgot">
     <a-row type="flex" justify="space-around">
-      <a-col :span="12" class="mitad"></a-col>
-      <a-col :span="12">
+      <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mitad"></a-col>
+      <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <a-row type="flex" justify="space-around">
-          <a-col :span="14">
+          <a-col :xs="18" :sm="18" :md="14" :lg="14" :xl="14" class="wrapper-forgot">
             <a-form :form="form" @submit="handleSubmit">
               <div class="wrapper-login">
                 <img height="145" src="~assets/images/logo-login.png" />
@@ -12,6 +12,7 @@
               <a-form-item>
                 <label>Email</label>
                 <a-input
+                  :maxLength="70"
                   v-decorator="[
           'email',
           {
@@ -131,6 +132,7 @@ export default {
   height: 100%;
   width: 100%;
   position: fixed;
+  background: white;
 }
 
 .mitad {
@@ -150,5 +152,19 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 767px) and (min-width: 200px) {
+  .mitad {
+    position: absolute;
+    top: 0;
+    min-height: 100vh;
+  }
+
+  .wrapper-forgot {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+  }
 }
 </style>

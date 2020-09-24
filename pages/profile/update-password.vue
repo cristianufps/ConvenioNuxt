@@ -1,7 +1,7 @@
 <template>
   <a-card title="Cambiar contraseña">
-    <a-row>
-      <a-col :span="12">
+    <a-row type="flex" justify="space-around">
+      <a-col :xs="18" :sm="18" :md="12" :lg="12" :xl="12">
         <a-form :form="form" @submit="handleSubmit">
           <a-form-item v-bind="formItemLayout" label="Contraseña actual">
             <a-input
@@ -12,7 +12,7 @@
             rules: [
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: 'Este campo es obligatorio',
               },
               {
                 validator: validatePassword,
@@ -35,6 +35,9 @@
               {
                 validator: validateToNextPassword,
               },
+              {
+                min:8,message: 'Contraseña corta',
+              }
             ],
           },
         ]"
@@ -49,7 +52,7 @@
             rules: [
               {
                 required: true,
-                message: 'Please confirm your password!',
+                message: 'Este campo es obligatorio',
               },
               {
                 validator: compareToFirstPassword,
@@ -74,48 +77,12 @@
 </template>
 
 <script>
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 export default {
   layout: "administrador",
   data() {
     return {
       idLogged: this.$auth.$state.user.usua_id,
       confirmDirty: false,
-      residences,
       autoCompleteResult: [],
       formItemLayout: {
         labelCol: {

@@ -23,7 +23,7 @@ export default {
   middleware({ store, redirect }) {
     let rol = store.$auth.$state.user;
 
-    return redirect("/admin/home");
+    return redirect("/agreement/list-agreement");
   },
   methods: {
     async logout() {

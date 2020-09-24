@@ -1,16 +1,18 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="19">
+      <a-col :xs="16" :sm="16" :md="19" :lg="19" :xl="19">
         <h3 class="card-title">Tipos de convenios</h3>
       </a-col>
-      <a-col :span="5">
+      <a-col :xs="8" :sm="8" :md="4" :lg="4" :xl="4">
         <nuxt-link to="/admin/agreement-type/form-type-agreement">
-          <a-button type="primary">Registrar tipo de convenio</a-button>
+          <a-button type="primary">
+            <b class="btn-text-responsive"></b>
+          </a-button>
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="typeAgreementList" :columns="columns">
+    <a-table rowKey="tico_id" :dataSource="typeAgreementList" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -75,10 +77,9 @@
 <script>
 export default {
   mounted() {
-    setTimeout(() => {
-      // Extend loader for an additional 5s
-      this.$nuxt.$loading.finish();
-    }, 10000);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
   },
   beforeMount() {
     this.listTypeAgreement();
@@ -140,8 +141,10 @@ export default {
           if (res) {
             this.typeAgreementList = res.data.data;
           }
+          this.$nuxt.$loading.finish();
         })
         .catch(err => {
+          this.$nuxt.$loading.finish();
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     }
@@ -151,5 +154,15 @@ export default {
 <style scoped>
 .card-title {
   color: red;
+}
+
+.btn-text-responsive:after {
+  content: "Registrar tipo convenio";
+}
+
+@media (max-width: 767px) and (min-width: 200px) {
+  .btn-text-responsive:after {
+    content: "Registrar";
+  }
 }
 </style>

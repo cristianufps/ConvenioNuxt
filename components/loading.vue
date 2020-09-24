@@ -126,7 +126,8 @@ export default {
 
 .loading-page {
   z-index: 1500;
-  position: absolute;
+  position: fixed;
+  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100%;

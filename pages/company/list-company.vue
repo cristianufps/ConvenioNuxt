@@ -1,16 +1,18 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="20">
+      <a-col :xs="12" :sm="12" :md="20" :lg="20" :xl="20">
         <h3 class="card-title">Empresas</h3>
       </a-col>
-      <a-col :span="4">
-        <nuxt-link to="/admin/category/category-list">
-          <a-button type="primary">Registrar Empresa</a-button>
+      <a-col :xs="12" :sm="12" :md="4" :lg="4" :xl="4">
+        <nuxt-link to="/company/company">
+          <a-button type="primary">
+            <b>Registrar Empresa</b>
+          </a-button>
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="data" :columns="columns">
+    <a-table rowKey="empr_id" :dataSource="companies" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -50,74 +52,57 @@
               v-if="fragment.toLowerCase() === searchText.toLowerCase()"
               :key="i"
               class="highlight"
-            >{{ fragment }}</mark>
-            <template v-else>{{ fragment }}</template>
+            >
+              <nuxt-link
+                :to="{name: 'company-company-idcompany', params: { idcompany: record.empr_id } }"
+              >{{ fragment }}</nuxt-link>
+            </mark>
+            <template v-else>
+              <nuxt-link
+                :key="i"
+                :to="{name: 'company-company-idcompany', params: { idcompany: record.empr_id } }"
+              >{{ fragment }}</nuxt-link>
+            </template>
           </template>
         </span>
-        <template v-else>{{ text }}</template>
+        <template v-else>
+          <nuxt-link
+            :to="{name: 'company-company-idcompany', params: { idcompany: record.empr_id } }"
+          >{{ text }}</nuxt-link>
+        </template>
       </template>
     </a-table>
-
-    <!-- <img
-      src="https://storage.googleapis.com/convenio-273922.appspot.com/imagenes_perfil/pant-blo.jpg"
-      alt
-    />-->
   </a-card>
 </template>
 <script>
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park"
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park"
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sidney No. 1 Lake Park"
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park"
-  }
-];
-
 export default {
   mounted() {
-    setTimeout(() => {
-      // Extend loader for an additional 5s
-      this.$nuxt.$loading.finish();
-    }, 10000);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
   },
   layout: "administrador",
+  beforeMount() {
+    this.listCompany();
+  },
   data() {
     return {
-      data,
+      companies: [],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
       columns: [
         {
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
+          title: "Nombre",
+          dataIndex: "empr_nombre",
+          key: "empr_nombre",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.name
+            record.empr_nombre
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -130,38 +115,16 @@ export default {
           }
         },
         {
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "Nit",
+          dataIndex: "empr_nit",
+          key: "empr_nit",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.age
-              .toString()
-              .toLowerCase()
-              .includes(value.toLowerCase()),
-          onFilterDropdownVisibleChange: visible => {
-            if (visible) {
-              setTimeout(() => {
-                this.searchInput.focus();
-              });
-            }
-          }
-        },
-        {
-          title: "Address",
-          dataIndex: "address",
-          key: "address",
-          scopedSlots: {
-            filterDropdown: "filterDropdown",
-            filterIcon: "filterIcon",
-            customRender: "customRender"
-          },
-          onFilter: (value, record) =>
-            record.address
+            record.empr_nit
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -177,15 +140,38 @@ export default {
     };
   },
   methods: {
+    openNotification(type, title, description) {
+      this.$notification[type]({
+        message: title,
+        description: description,
+        duration: 5
+      });
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
       this.searchedColumn = dataIndex;
     },
-
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = "";
+    },
+    listCompany() {
+      this.$axios("/list_company")
+        .then(res => {
+          if (res.status == 200) {
+            this.companies = res.data.data;
+          }
+          this.$nuxt.$loading.finish();
+        })
+        .catch(err => {
+          this.$nuxt.$loading.finish();
+          this.openNotification(
+            "error",
+            "Error",
+            "Se ha producido un error listando las empresas"
+          );
+        });
     }
   }
 };

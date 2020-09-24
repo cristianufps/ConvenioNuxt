@@ -1,13 +1,13 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="20">
+      <a-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
         <h3 class="card-title">Usuarios</h3>
       </a-col>
-      <a-col :span="4">
-        <nuxt-link to="/users/form">
+      <a-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
+        <!-- <nuxt-link to="/users/form">
           <a-button type="primary">Registrar Usuario</a-button>
-        </nuxt-link>
+        </nuxt-link>-->
       </a-col>
     </a-row>
     <a-table :dataSource="users" :columns="columns">

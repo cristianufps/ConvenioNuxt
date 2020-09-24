@@ -1,16 +1,18 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="20">
+      <a-col :xs="12" :sm="18" :md="20" :lg="20" :xl="20">
         <h3 class="card-title">Categorías</h3>
       </a-col>
-      <a-col :span="4">
+      <a-col :xs="12" :sm="12" :md="4" :lg="4" :xl="4">
         <nuxt-link to="/admin/category/form-category">
-          <a-button type="primary">Registrar Categoría</a-button>
+          <a-button type="primary">
+            <b>Registrar Categoría</b>
+          </a-button>
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="categoryList" :columns="columns">
+    <a-table rowKey="cate_id" :dataSource="categoryList" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -75,10 +77,9 @@
 <script>
 export default {
   mounted() {
-    setTimeout(() => {
-      // Extend loader for an additional 5s
-      this.$nuxt.$loading.finish();
-    }, 10000);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
   },
   beforeMount() {
     this.listCategories();
@@ -136,12 +137,13 @@ export default {
     listCategories() {
       this.$axios("/list_category")
         .then(res => {
-          console.log("res -Z ", res);
-          if (res) {
+          if (res.status == 200) {
             this.categoryList = res.data.data;
           }
+          this.$nuxt.$loading.finish();
         })
         .catch(err => {
+          this.$nuxt.$loading.finish();
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     }

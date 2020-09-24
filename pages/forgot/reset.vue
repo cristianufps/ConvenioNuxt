@@ -1,20 +1,23 @@
 <template>
   <div class="card-forgot">
     <a-row type="flex" justify="space-around">
-      <a-col :span="12" class="mitad-forgot"></a-col>
-      <a-col :span="12">
+      <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12" class="mitad-forgot"></a-col>
+      <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
         <a-row type="flex" justify="space-around">
-          <a-col :span="11">
+          <a-col :xs="16" :sm="16" :md="11" :lg="11" :xl="11" class="wrapper-forgot">
             <a-form :form="form" class="login-form" @submit="handleSubmit">
               <label class="label-form">Contraseña nueva</label>
               <a-form-item>
                 <a-input
-                  maxlength="20"
+                  :maxLength="20"
                   v-decorator="[
           'password',
           {
             rules: [{
               required: true, message: 'Este campo es requerido',
+            },
+            {
+             validator: validateMinLength
             }],
           }
         ]"
@@ -24,7 +27,7 @@
               <label class="label-form">Confirmar contraseña</label>
               <a-form-item>
                 <a-input
-                  maxlength="20"
+                  :maxLength="20"
                   v-decorator="[
           'confirm',
           {
@@ -67,6 +70,18 @@ export default {
     };
   },
   methods: {
+    validateMinLength(rule, value, callback) {
+      try {
+        if (value != undefined) {
+          if (value.length > 0 && value.length < 8) {
+            callback("Por favor, no escribas menos de 8 caracteres.");
+          }
+        }
+        callback();
+      } catch (err) {
+        callback(err);
+      }
+    },
     compareToFirstPassword(rule, value, callback) {
       const form = this.form;
       if (value && value !== form.getFieldValue("password")) {
@@ -113,18 +128,17 @@ export default {
 };
 </script>
 <style >
-.mitad-forgot{
+.mitad-forgot {
   background: url(../../assets/images/img-reset.jpeg);
   background-size: cover;
   height: 100%;
 }
 
 .card-forgot {
-  /* background: url(../../assets/images/car-repair.jpg); */
-  background-size: cover;
   height: 100%;
   width: 100%;
   position: fixed;
+  background: white;
 }
 
 .login-form-button {
@@ -134,5 +148,18 @@ export default {
 .card-forgot > div {
   height: 100% !important;
   align-items: center !important;
+}
+@media (max-width: 767px) and (min-width: 200px) {
+  .mitad-forgot {
+    position: absolute;
+    top: 0;
+    min-height: 100vh;
+  }
+
+  .wrapper-forgot {
+    background: white;
+    padding: 20px;
+    border-radius: 20px;
+  }
 }
 </style>

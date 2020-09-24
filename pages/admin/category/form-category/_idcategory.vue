@@ -28,7 +28,7 @@
           }
         ]"
               @change="validationLetters"
-              :maxLength="150"
+              :maxLength="45"
               autocomplete="off"
             />
           </a-form-item>
@@ -52,6 +52,16 @@
 <script>
 export default {
   layout: "administrador",
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+      if (!this.idCategory) {
+        setTimeout(function() {
+          this.$nuxt.$loading.finish();
+        }, 1000);
+      }
+    });
+  },
   beforeMount() {
     if (this.idCategory) {
       this.getCategory();

@@ -1,14 +1,30 @@
 <template>
-  <a-card title="Representante legal">
+  <a-card>
+    <a-row slot="title" type="flex" justify="end">
+      <a-col :xs="18" :sm="18" :md="22" :lg="22" :xl="22">
+        <h3 v-if="idRepresentante" class="card-title">Editar Representante</h3>
+        <h3 v-else class="card-title">Registrar Representante</h3>
+      </a-col>
+
+      <a-col :xs="6" :sm="6" :md="2" :lg="2" :xl="2" style="text-align:end;">
+        <div class="pointer">
+          <nuxt-link to="/legal-representant/list-representant">
+            <a-button>Volver</a-button>
+          </nuxt-link>
+        </div>
+      </a-col>
+    </a-row>
     <a-form :form="form" @submit="handleSubmit">
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Documento</span>
         <a-input
+          autocomplete="off"
+          :maxLength="12"
           v-decorator="[
           'rele_documento',
           {
             initialValue:representant.rele_documento,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
@@ -16,11 +32,14 @@
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Nombres</span>
         <a-input
+          autocomplete="off"
+          @change="validationLetters"
+          :maxLength="100"
           v-decorator="[
           'rele_nombres',
           {
             initialValue:representant.rele_nombres,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
@@ -28,17 +47,22 @@
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Apellidos</span>
         <a-input
+          autocomplete="off"
+          @change="validationLetters"
+          :maxLength="200"
           v-decorator="[
           'rele_apellidos',
           {
             initialValue:representant.rele_apellidos,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="E-mail">
         <a-input
+          autocomplete="off"
+          :maxLength="45"
           v-decorator="[
           'rele_correo',
           {
@@ -46,7 +70,7 @@
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: 'Ingrese un correo valido',
               },
               {
                 required: true,
@@ -59,6 +83,9 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Celular">
         <a-input
+          autocomplete="off"
+          @change="validationNumbers"
+          :maxLength="10"
           v-decorator="[
           'rele_celular',
           {
@@ -93,6 +120,16 @@
 
 <script>
 export default {
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+      if (!this.idRepresentante) {
+        setTimeout(function() {
+          this.$nuxt.$loading.finish();
+        }, 1000);
+      }
+    });
+  },
   layout: "administrador",
   beforeMount() {
     if (this.idRepresentante) {
@@ -195,13 +232,7 @@ export default {
       this.$axios
         .$put("/update_legal_representant/" + this.idRepresentante, datos)
         .then(res => {
-          if (res.error) {
-            this.openNotification(
-              "info",
-              "Información",
-              "la representante ya se encuentra registrado."
-            );
-          } else {
+          if (res.status) {
             this.openNotification(
               "success",
               "Información",
@@ -211,19 +242,7 @@ export default {
           }
         })
         .catch(error => {
-          if (error.message == "Request failed with status code 422") {
-            this.openNotification(
-              "info",
-              "Información",
-              "El área ya se encuentra registrada."
-            );
-          } else {
-            this.openNotification(
-              "error",
-              "Error",
-              "Se ha producido un error."
-            );
-          }
+          this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
     registerLegalRepresentant(datos) {
@@ -234,7 +253,7 @@ export default {
             this.openNotification(
               "success",
               "Información",
-              "Se ha registrado la representante satisfactoriamente."
+              "Se ha registrado el representante satisfactoriamente."
             );
             this.$router.push("/legal-representant/list-representant");
           }
@@ -288,3 +307,8 @@ export default {
   }
 };
 </script>
+<style scoped>
+.card-title {
+  color: red;
+}
+</style>

@@ -15,6 +15,7 @@
         <a-form-item>
           <a-input
             autocomplete="off"
+            :maxLength="70"
             v-decorator="[
           'userName',
           { rules: [              {
@@ -29,6 +30,7 @@
         </a-form-item>
         <a-form-item>
           <a-input
+            :maxLength="20"
             v-decorator="[
           'password',
           { rules: [{ required: true, message: 'Por favor ingrese su contraseña!' }] },
@@ -76,6 +78,8 @@ export default {
       });
     },
     async login(e) {
+      this.$nuxt.$loading.start();
+
       try {
         let datos = {
           user: e.userName,
@@ -85,7 +89,6 @@ export default {
         await this.$auth.loginWith("local", {
           data: datos
         });
-        this.$nuxt.$loading.start();
       } catch (error) {
         this.error = error;
         this.$nuxt.$loading.finish();

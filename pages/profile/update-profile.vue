@@ -4,11 +4,13 @@
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Documento</span>
         <a-input
+          autocomplete="off"
+          :maxLength="12"
           v-decorator="[
           'usua_documento',
           {
             initialValue:usuario.usua_documento,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
@@ -16,11 +18,14 @@
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Nombres</span>
         <a-input
+          autocomplete="off"
+          :maxLength="100"
+          @change="validationLetters"
           v-decorator="[
           'usua_nombres',
           {
             initialValue:usuario.usua_nombres,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
@@ -28,17 +33,22 @@
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Apellidos</span>
         <a-input
+          autocomplete="off"
+          :maxLength="200"
+          @change="validationLetters"
           v-decorator="[
           'usua_apellidos',
           {
             initialValue:usuario.usua_apellidos,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="E-mail">
         <a-input
+          autocomplete="off"
+          :maxLength="80"
           v-decorator="[
           'usua_correo',
           {
@@ -46,11 +56,11 @@
             rules: [
               {
                 type: 'email',
-                message: 'The input is not valid E-mail!',
+                message: 'Ingrese un correo valido',
               },
               {
                 required: true,
-                message: 'Please input your E-mail!',
+                message: 'Este campo es obligatorio',
               },
             ],
           },
@@ -59,11 +69,14 @@
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Celular">
         <a-input
+          autocomplete="off"
+          :maxLength="10"
+          @change="validationNumbers"
           v-decorator="[
           'usua_celular',
           {
             initialValue:usuario.usua_celular,
-            rules: [{ required: true, message: 'Please input your phone number!' }],
+            rules: [{ required: true, message: 'Este campo es obligatorio' }],
           },
         ]"
           style="width: 100%"
@@ -82,11 +95,13 @@
       <a-form-item v-bind="formItemLayout">
         <span slot="label">Dirección</span>
         <a-input
+          autocomplete="off"
+          :maxLength="100"
           v-decorator="[
           'usua_direccion',
           {
             initialValue:usuario.usua_direccion,
-            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
           },
         ]"
         />
@@ -101,41 +116,6 @@
 </template>
 
 <script>
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men"
-          }
-        ]
-      }
-    ]
-  }
-];
-
 export default {
   mounted() {
     this.$nextTick(() => {
@@ -161,9 +141,7 @@ export default {
         usua_imgperfil: "",
         usua_nombres: ""
       },
-
       confirmDirty: false,
-      residences,
       autoCompleteResult: [],
       formItemLayout: {
         labelCol: {
@@ -193,6 +171,14 @@ export default {
     this.form = this.$form.createForm(this, { name: "register" });
   },
   methods: {
+    validationLetters(e) {
+      const input = e.target.value;
+      e.target.value = input.replace(/[^a-zA-Z\s]$/g, "");
+    },
+    validationNumbers(e) {
+      const input = e.target.value;
+      e.target.value = input.replace(/[^0-9]/g, "");
+    },
     getUser() {
       this.$axios("/user_by_id/" + this.idLogged)
         .then(res => {

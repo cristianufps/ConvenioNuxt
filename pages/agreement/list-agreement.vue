@@ -1,16 +1,23 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :span="20">
+      <a-col :xs="11" :sm="11" :md="16" :lg="16" :xl="16">
         <h3 class="card-title">Convenios</h3>
       </a-col>
-      <a-col :span="4">
+      <a-col :xs="13" :sm="13" :md="4" :lg="4" :xl="4">
+        <a-button @click="excel" v-if="agreements.length > 0" type="primary">
+          <b>Descargar Excel</b>
+        </a-button>
+      </a-col>
+      <a-col :xs="13" :sm="13" :md="4" :lg="4" :xl="4">
         <nuxt-link to="/agreement/form/">
-          <a-button type="primary">Registrar Convenio</a-button>
+          <a-button type="primary">
+            <b>Registrar Convenio</b>
+          </a-button>
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="data" :columns="columns">
+    <a-table :dataSource="agreements" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"
@@ -50,74 +57,57 @@
               v-if="fragment.toLowerCase() === searchText.toLowerCase()"
               :key="i"
               class="highlight"
-            >{{ fragment }}</mark>
-            <template v-else>{{ fragment }}</template>
+            >
+              <nuxt-link
+                :to="{name: 'agreement-form-idagreement', params: { idagreement: record.conv_id } }"
+              >{{ fragment }}</nuxt-link>
+            </mark>
+            <template v-else>
+              <nuxt-link
+                :key="i"
+                :to="{name: 'agreement-form-idagreement', params: { idagreement: record.conv_id } }"
+              >{{ fragment }}</nuxt-link>
+            </template>
           </template>
         </span>
-        <template v-else>{{ text }}</template>
+        <template v-else>
+          <nuxt-link
+            :to="{name: 'agreement-form-idagreement', params: { idagreement: record.conv_id } }"
+          >{{ text }}</nuxt-link>
+        </template>
       </template>
     </a-table>
-
-    <!-- <img
-      src="https://storage.googleapis.com/convenio-273922.appspot.com/imagenes_perfil/pant-blo.jpg"
-      alt
-    />-->
   </a-card>
 </template>
 <script>
-const data = [
-  {
-    key: "1",
-    name: "John Brown",
-    age: 32,
-    address: "New York No. 1 Lake Park"
-  },
-  {
-    key: "2",
-    name: "Joe Black",
-    age: 42,
-    address: "London No. 1 Lake Park"
-  },
-  {
-    key: "3",
-    name: "Jim Green",
-    age: 32,
-    address: "Sidney No. 1 Lake Park"
-  },
-  {
-    key: "4",
-    name: "Jim Red",
-    age: 32,
-    address: "London No. 2 Lake Park"
-  }
-];
-
 export default {
   mounted() {
-    setTimeout(() => {
-      // Extend loader for an additional 5s
-      this.$nuxt.$loading.finish();
-    }, 10000);
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+    });
+  },
+  beforeMount() {
+    this.listAgreements();
   },
   layout: "administrador",
   data() {
     return {
-      data,
+      agreements: [],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
       columns: [
         {
-          title: "Name",
-          dataIndex: "name",
-          key: "name",
+          title: "Nombre",
+          dataIndex: "conv_nombre",
+          key: "conv_nombre",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.name
+            record.conv_nombre
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -130,16 +120,38 @@ export default {
           }
         },
         {
-          title: "Age",
-          dataIndex: "age",
-          key: "age",
+          title: "Empresa",
+          dataIndex: "empr_nombre",
+          key: "empr_nombre",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.age
+            record.empr_nombre
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              }, 0);
+            }
+          }
+        },
+        {
+          title: "Tipo Convenio",
+          dataIndex: "tico_nombre",
+          key: "tico_nombre",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender"
+          },
+          onFilter: (value, record) =>
+            record.tico_nombre
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -152,16 +164,16 @@ export default {
           }
         },
         {
-          title: "Address",
-          dataIndex: "address",
-          key: "address",
+          title: "Fecha final",
+          dataIndex: "conv_fechafinal",
+          key: "conv_fechafinal",
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
             customRender: "customRender"
           },
           onFilter: (value, record) =>
-            record.address
+            record.conv_fechafinal
               .toString()
               .toLowerCase()
               .includes(value.toLowerCase()),
@@ -177,15 +189,73 @@ export default {
     };
   },
   methods: {
+    success(description) {
+      this.$message.success(description);
+    },
+    error(description) {
+      this.$message.error(description);
+    },
+    openNotification(type, title, description) {
+      this.$notification[type]({
+        message: title,
+        description: description,
+        duration: 5
+      });
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];
       this.searchedColumn = dataIndex;
     },
-
     handleReset(clearFilters) {
       clearFilters();
       this.searchText = "";
+    },
+    listAgreements() {
+      this.$axios("list_agreements")
+        .then(res => {
+          console.log("list ", res);
+          if (res.status == 200) {
+            this.agreements = res.data.data;
+          }
+          this.$nuxt.$loading.finish();
+        })
+        .catch(err => {
+          this.openNotification(
+            "error",
+            "Error",
+            "Se ha producido un error listando los convenios"
+          );
+          this.$nuxt.$loading.finish();
+        });
+    },
+    excel() {
+      // let id = this.$auth.$state.user.id
+      // let rol = this.$auth.$state.user.role.role_id
+      let route = "";
+
+      route = this.$axios.defaults.baseURL + "/excel_agreements";
+
+      if (route !== null) {
+        let newWindow = window.open(route, "blank");
+        if (
+          !newWindow ||
+          newWindow.closed ||
+          typeof newWindow.closed === "undefined"
+        ) {
+          this.allowEmergingWindows();
+        }
+        this.success("Se descargó el archivo con éxito");
+      } else {
+        this.error("Se ha produciodo un problema.");
+      }
+    },
+    allowEmergingWindows() {
+      Modal.warning({
+        title: "Ventanas emergentes",
+        content:
+          "Por favor habilite las ventanas emergentes de acuerdo con su navegador"
+      });
     }
   }
 };
