@@ -38,10 +38,11 @@ export default {
     /*  
      ** Axios module configuration
      ** https://convenio-273922.uc.r.appspot.com
+     ** https://swac-app.rj.r.appspot.com
      ** http://localhost:8080
      */
     axios: {
-        baseURL: 'https://convenio-273922.uc.r.appspot.com'
+        baseURL: 'http://localhost:8080'
     },
     /*
      ** Login Configuration 
