@@ -17,28 +17,48 @@
             autocomplete="off"
             :maxLength="70"
             v-decorator="[
-          'userName',
-          { rules: [              {
-                type: 'email',
-                message: 'Ingrese un correo valido!',
-              },{ required: true, message: 'Por favor ingrese su correo!' }] },
-        ]"
+              'userName',
+              {
+                rules: [
+                  {
+                    type: 'email',
+                    message: 'Ingrese un correo valido!',
+                  },
+                  { required: true, message: 'Por favor ingrese su correo!' },
+                ],
+              },
+            ]"
             placeholder="Correo"
           >
-            <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25)" />
+            <a-icon
+              slot="prefix"
+              type="user"
+              style="color: rgba(0, 0, 0, 0.25)"
+            />
           </a-input>
         </a-form-item>
         <a-form-item>
           <a-input
             :maxLength="20"
             v-decorator="[
-          'password',
-          { rules: [{ required: true, message: 'Por favor ingrese su contraseña!' }] },
-        ]"
+              'password',
+              {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Por favor ingrese su contraseña!',
+                  },
+                ],
+              },
+            ]"
             type="password"
             placeholder="Contraseña"
           >
-            <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25)" />
+            <a-icon
+              slot="prefix"
+              type="lock"
+              style="color: rgba(0, 0, 0, 0.25)"
+            />
           </a-input>
         </a-form-item>
 
@@ -48,7 +68,9 @@
             <b>Iniciar sesión</b>
           </a-button>
         </a-form-item>
-        <nuxt-link class="login-form-forgot lk-f" to="/forgot/forgot">¿olvidó la contraseña?</nuxt-link>
+        <nuxt-link class="login-form-forgot lk-f" to="/forgot/forgot"
+          >¿olvidó la contraseña?</nuxt-link
+        >
       </a-form>
     </a-col>
   </a-row>
@@ -61,11 +83,12 @@ export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
+  auth: false,
   middleware: "auth",
   name: "Login",
   data() {
     return {
-      error: null
+      error: null,
     };
   },
   methods: {
@@ -83,18 +106,23 @@ export default {
       try {
         let datos = {
           user: e.userName,
-          password: e.password
+          password: e.password,
         };
 
-        await this.$auth.loginWith("local", {
-          data: datos
+        let loginM = await this.$auth.loginWith("local", {
+          data: datos,
         });
+
+        console.log(loginM);
+        if (loginM.status == 200) {
+          this.$router.push("/agreement/list-agreement");
+        }
       } catch (error) {
         this.error = error;
         this.$nuxt.$loading.finish();
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

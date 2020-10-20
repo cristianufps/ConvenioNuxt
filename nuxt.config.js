@@ -42,7 +42,7 @@ export default {
      ** http://localhost:8080
      */
     axios: {
-        baseURL: 'http://localhost:8080'
+        baseURL: 'https://swac-app.rj.r.appspot.com'
     },
     /*
      ** Login Configuration 
@@ -50,9 +50,9 @@ export default {
     auth: {
         // Options
         redirect: {
-            login: '/authentication/login',
+            login: '/authentication/cover-page',
             logout: '/',
-            callback: '/authentication/login',
+            callback: '/authentication/cover-page',
             home: '/'
         },
         strategies: {

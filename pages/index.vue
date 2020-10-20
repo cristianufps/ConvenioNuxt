@@ -5,8 +5,15 @@
       <h1 class="title" @click="logout">convenio</h1>
       <h2 class="subtitle">My wicked Nuxt.js project</h2>
       <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
-        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
+        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
+          >Documentation</a
+        >
+        <a
+          href="https://github.com/nuxt/nuxt.js"
+          target="_blank"
+          class="button--grey"
+          >GitHub</a
+        >
       </div>
     </div>
   </div>
@@ -18,19 +25,20 @@ import Logo from "~/components/Logo.vue";
 export default {
   // auth: false,
   components: {
-    Logo
+    Logo,
   },
   middleware({ store, redirect }) {
-    let rol = store.$auth.$state.user;
-
+    console.log(" MIDDLEWARE ");
+    console.log(" -------------------------");
+    // let rol = store.$auth.$state.user;
     return redirect("/agreement/list-agreement");
   },
   methods: {
     async logout() {
       this.$auth.logout();
       location.reload();
-    }
-  }
+    },
+  },
 };
 </script>
 
