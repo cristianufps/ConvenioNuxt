@@ -1,0 +1,6 @@
+projectKey=swac_front
+serverUrl=http://localhost:9000
+serverVersion=8.5.0.37579
+dashboardUrl=http://localhost:9000/dashboard?id=swac_front
+ceTaskId=AXVIIOXvHrjDgJHmP_yY
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXVIIOXvHrjDgJHmP_yY

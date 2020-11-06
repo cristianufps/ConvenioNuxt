@@ -170,3 +170,7 @@ table>tbody>tr>td.ant-table-column-has-actions.ant-table-column-has-filters>a {
 body>div:nth-child(3)>div>div>div>ul {
     background-color: red !important;
 }
+
+.card-title {
+    color: red;
+}

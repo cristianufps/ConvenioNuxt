@@ -51,7 +51,7 @@
           <a-icon type="setting" />
           <!-- <span class="no-response">Ajustes</span> -->
         </span>
-        <a-menu-item class="noti-session"  key="setting:1">
+        <a-menu-item class="noti-session" key="setting:1">
           <nuxt-link to="/profile/update-password"
             >Cambiar contraseña</nuxt-link
           >
@@ -95,9 +95,17 @@ export default {
   beforeMount() {
     this.getNotifications();
   },
+  watch: {
+    stateAlert: function (val) {
+      this.getNotifications();
+    },
+  },
   computed: {
     ...mapState({
       visibleDrawer: (state) => state.drawerApp,
+    }),
+    ...mapState({
+      stateAlert: (state) => state.stateAlert,
     }),
     ...mapState({
       nombreUsuario: (state) => {
@@ -130,12 +138,40 @@ export default {
         duration: 5,
       });
     },
-    leerAlerta() {},
+    leerAlerta(alert) {
+      console.log(alert);
+      if (alert.tial_id == 1) {
+        this.readNotification(alert.aler_id);
+        this.$router.push("/request/request");
+      }
+    },
     getNotifications() {
-      this.$axios("/list_alerts")
+      this.$axios("/list_alerts_not_view")
         .then((res) => {
           if (res.status == 200) {
             this.notificaciones = res.data.resp;
+          }
+        })
+        .catch((err) => {
+          this.openNotification(
+            "error",
+            "error",
+            "Ha ocurrido un error listando notificaciones."
+          );
+        });
+    },
+    readNotification(id) {
+      let req = {
+        alert: {
+          aler_id: id,
+        },
+      };
+      this.$axios
+        .put("/mark_seen_alert", req)
+        .then((res) => {
+          console.log("wwr", res);
+          if (res.status == 200) {
+            this.getNotifications();
           }
         })
         .catch((err) => {

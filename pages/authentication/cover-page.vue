@@ -155,9 +155,10 @@ export default {
           if (res.status == 200) {
             this.openNotification(
               "success",
-              "Error",
+              "Información",
               "Se ha registrado la solicitud con éxito"
             );
+            this.form.resetFields();
           }
           this.$nuxt.$loading.finish();
         })

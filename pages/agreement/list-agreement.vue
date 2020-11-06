@@ -17,7 +17,7 @@
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="agreements" :columns="columns">
+    <a-table rowKey="conv_id" :dataSource="agreements" :columns="columns">
       <div
         slot="filterDropdown"
         slot-scope="{ setSelectedKeys, selectedKeys, confirm, clearFilters, column }"

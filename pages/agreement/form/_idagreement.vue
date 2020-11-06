@@ -5,7 +5,7 @@
         <h3 v-if="idAgreement" class="card-title">Editar Convenio</h3>
         <h3 v-else class="card-title">Registrar Convenio</h3>
       </a-col>
-      <a-col :xs="6" :sm="6" :md="2" :lg="2" :xl="2" style="text-align:end;">
+      <a-col :xs="6" :sm="6" :md="2" :lg="2" :xl="2" style="text-align: end">
         <div class="pointer">
           <nuxt-link to="/agreement/list-agreement">
             <a-button>Volver</a-button>
@@ -20,12 +20,18 @@
           autocomplete="off"
           :maxLengt="100"
           v-decorator="[
-          'conv_nombre',
-          {
-            initialValue:agreement.conv_nombre,
-            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
-          },
-        ]"
+            'conv_nombre',
+            {
+              initialValue: agreement.conv_nombre,
+              rules: [
+                {
+                  required: true,
+                  message: 'Este campo es obligatorio',
+                  whitespace: true,
+                },
+              ],
+            },
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Tipo Convenio">
@@ -33,78 +39,102 @@
           :disabled="idAgreement != null"
           @change="typeAgreement"
           v-decorator="[
-          'tico_id',
-          {
-            initialValue:agreement.tico_id,
-             rules: [{ required: true, message: 'Este campo es obligatorio' }] },
-        ]"
+            'tico_id',
+            {
+              initialValue: agreement.tico_id,
+              rules: [{ required: true, message: 'Este campo es obligatorio' }],
+            },
+          ]"
           placeholder="Seleccione tipo de convenio"
         >
           <a-select-option
             v-for="type in typeAgreementList"
             :value="type.tico_id"
             :key="type.tico_id"
-          >{{ type.tico_nombre }}</a-select-option>
+            >{{ type.tico_nombre }}</a-select-option
+          >
         </a-select>
       </a-form-item>
-      <a-form-item v-show="parent" v-bind="formItemLayout" label="Convenio padre">
+      <a-form-item
+        v-show="parent"
+        v-bind="formItemLayout"
+        label="Convenio padre"
+      >
         <a-select
           :disabled="idAgreement != null"
           v-decorator="[
-          'conv_padre',
-          {
-            initialValue:agreement.conv_padre,
-             rules: [{ required: false, message: 'Este campo es obligatorio' }] },
-        ]"
+            'conv_padre',
+            {
+              initialValue: agreement.conv_padre,
+              rules: [
+                { required: false, message: 'Este campo es obligatorio' },
+              ],
+            },
+          ]"
           placeholder="Por favor seleccione un convenio Macro (opcional)"
         >
           <a-select-option
             v-for="conv in parents"
             :value="conv.conv_id"
             :key="conv.conv_id"
-          >{{ conv.conv_nombre }}</a-select-option>
+            >{{ conv.conv_nombre }}</a-select-option
+          >
         </a-select>
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Categoria">
         <a-select
           v-decorator="[
-          'cate_id',
-          { 
-            initialValue:agreement.cate_id,
-            rules: [{ required: true, message: 'Este campo es obligatorio' }] },
-        ]"
+            'cate_id',
+            {
+              initialValue: agreement.cate_id,
+              rules: [{ required: true, message: 'Este campo es obligatorio' }],
+            },
+          ]"
           placeholder="Seleccione categoria"
         >
           <a-select-option
             v-for="cat in categoryList"
             :value="cat.cate_id"
             :key="cat.cate_id"
-          >{{ cat.cate_nombre }}</a-select-option>
+            >{{ cat.cate_nombre }}</a-select-option
+          >
         </a-select>
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Empresa">
         <a-select
           v-decorator="[
-          'empr_id',
-          { 
-            initialValue:agreement.empr_id,
-            rules: [{ required: true, message: 'Este campo es obligatorio' }] },
-        ]"
+            'empr_id',
+            {
+              initialValue: agreement.empr_id,
+              rules: [{ required: true, message: 'Este campo es obligatorio' }],
+            },
+          ]"
           placeholder="Seleccione empresa"
         >
           <a-select-option
             v-for="emp in companies"
             :value="emp.empr_id"
             :key="emp.empr_id"
-          >{{ emp.empr_nombre }}</a-select-option>
+            >{{ emp.empr_nombre }}</a-select-option
+          >
         </a-select>
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Fecha inicial">
         <a-range-picker
           :locale="locale"
-          v-decorator="['fechas', { 
-            initialValue:agreement.fechas,
-            rules: [{ type:'array',required: true, message: 'Este campo es obligatorio' }] },]"
+          v-decorator="[
+            'fechas',
+            {
+              initialValue: agreement.fechas,
+              rules: [
+                {
+                  type: 'array',
+                  required: true,
+                  message: 'Este campo es obligatorio',
+                },
+              ],
+            },
+          ]"
         />
         <!-- <a-date-picker v-decorator="['date-picker', config]" /> -->
       </a-form-item>
@@ -116,12 +146,18 @@
           @change="validationNumbers"
           :maxLengt="12"
           v-decorator="[
-          'conv_costo',
-          {
-            initialValue:agreement.conv_costo,
-            rules: [{ required: false, message: 'Este campo es obligatorio', whitespace: true }],
-          },
-        ]"
+            'conv_costo',
+            {
+              initialValue: agreement.conv_costo,
+              rules: [
+                {
+                  required: false,
+                  message: 'Este campo es obligatorio',
+                  whitespace: true,
+                },
+              ],
+            },
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout">
@@ -131,12 +167,18 @@
           placeholder="Descripcion"
           :auto-size="{ minRows: 3, maxRows: 5 }"
           v-decorator="[
-          'conv_descripcion',
-          {
-            initialValue:agreement.conv_descripcion,
-            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
-          },
-        ]"
+            'conv_descripcion',
+            {
+              initialValue: agreement.conv_descripcion,
+              rules: [
+                {
+                  required: true,
+                  message: 'Este campo es obligatorio',
+                  whitespace: true,
+                },
+              ],
+            },
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="tailFormItemLayout">
@@ -148,35 +190,55 @@
         </a-button>
       </a-form-item>
     </a-form>
-    <a-row v-if="idAgreement" class="row-upload" type="flex" justify="space-around">
+    <a-row
+      v-if="idAgreement"
+      class="row-upload"
+      type="flex"
+      justify="space-around"
+    >
       <a-col :span="10">
         <a-upload-dragger
           accept="application/msword, text/plain, application/pdf"
           name="file"
           :multiple="true"
           @change="handleChange"
+          :before-upload="beforeUpload"
         >
           <p class="ant-upload-drag-icon">
             <a-icon type="inbox" />
           </p>
-          <p class="ant-upload-text">Haga clic o arrastre el archivo a esta área para cargar</p>
-          <p class="ant-upload-hint">Solo se pueden cargar archivos word y pdf</p>
+          <p class="ant-upload-text">
+            Haga clic o arrastre el archivo a esta área para cargar
+          </p>
+          <p class="ant-upload-hint">
+            Solo se pueden cargar archivos word y pdf
+          </p>
         </a-upload-dragger>
       </a-col>
       <a-col :span="11">
-        <div style="margin-bottom:50px;">
+        <div style="margin-bottom: 50px">
           <h3 class="card-title">Documento cargado</h3>
-
           <a
             v-if="agreement.conv_soporte"
-            :href="urlBuckect+agreement.conv_soporte"
+            :href="urlBuckect + agreement.conv_soporte"
             target="_blank"
-          >{{ agreement.conv_soporte }}</a>
+            >{{ agreement.conv_soporte }}</a
+          >
           <p v-else>No tiene documento cargado</p>
+          <a-button
+            v-if="agreement.conv_soporte"
+            @click="showModal"
+            type="primary"
+            >Ver documento</a-button
+          >
         </div>
 
         <a-row v-if="doc" type="flex" justify="start">
-          <a-button v-if="agreement.conv_soporte" @click="uploadDocument" type="primary">
+          <a-button
+            v-if="agreement.conv_soporte"
+            @click="uploadDocument"
+            type="primary"
+          >
             <b>Reemplazar Archivo</b>
           </a-button>
           <a-button v-else @click="uploadDocument" type="primary">
@@ -185,10 +247,33 @@
         </a-row>
       </a-col>
     </a-row>
+    <a-modal
+      width="1200px"
+      v-model="visibleM"
+      :footer="null"
+      :maskClosable="false"
+      @cancel="closeModal"
+    >
+      <a-row slot="title" type="flex" justify="space-around">
+        <h4 class="title-company-types">Visualización</h4>
+      </a-row>
+      <!-- <iframe height="1200" name="demo" :srcdoc="docUrl"></iframe> -->
+      <!-- <VueDocPreview
+        value="https://imagenes-prod-tus-cuentas.s3.us-east-2.amazonaws.com/WL99bvSNsG5zQK6hAA7sP3t1"
+        type="office"
+      /> -->
+       <client-only placeholder="Loading...">
+        <VueDocPreview
+          :value="urlBuckect + agreement.conv_soporte"
+          type="office"
+        />
+      </client-only>
+    </a-modal>
   </a-card>
 </template>
 
 <script>
+import VueDocPreview from "vue-doc-preview";
 import moment from "moment";
 moment.locale("es-MX");
 
@@ -197,6 +282,9 @@ export default {
     this.$nextTick(() => {
       this.$nuxt.$loading.start();
     });
+  },
+  components: {
+    VueDocPreview,
   },
   beforeMount() {
     this.listAgreementsParents();
@@ -210,8 +298,9 @@ export default {
   layout: "administrador",
   data() {
     return {
+      visibleM: false,
       urlBuckect:
-        "https://storage.googleapis.com/convenio-273922.appspot.com/soportes_convenios/",
+        "https://storage.googleapis.com/swac-app.appspot.com/soportes_convenios/",
       idAgreement: this.$route.params.idagreement,
       agreement: {
         conv_nombre: "",
@@ -221,7 +310,7 @@ export default {
         cate_id: "",
         empr_id: "",
         tico_id: "",
-        conv_costo: ""
+        conv_costo: "",
       },
       parents: [],
       categoryList: [],
@@ -255,15 +344,15 @@ export default {
           previousDecade: "Last decade",
           nextDecade: "Next decade",
           previousCentury: "Last century",
-          nextCentury: "Next century"
+          nextCentury: "Next century",
         },
         timePickerLocale: {
-          placeholder: "Select time"
+          placeholder: "Select time",
         },
         dateFormat: "YYYY-MM-DD",
         dateTimeFormat: "YYYY-MM-DD HH:mm:ss",
         weekFormat: "YYYY-wo",
-        monthFormat: "YYYY-MM"
+        monthFormat: "YYYY-MM",
       },
       typeAgreementList: [],
       parent: false,
@@ -275,61 +364,69 @@ export default {
           {
             type: "array",
             required: true,
-            message: "Seleccione un rango de fechas"
-          }
-        ]
+            message: "Seleccione un rango de fechas",
+          },
+        ],
       },
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 }
+          sm: { span: 8 },
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 }
-        }
+          sm: { span: 16 },
+        },
       },
       tailFormItemLayout: {
         wrapperCol: {
           xs: {
             span: 24,
-            offset: 0
+            offset: 0,
           },
           sm: {
             span: 16,
-            offset: 8
-          }
-        }
-      }
+            offset: 8,
+          },
+        },
+      },
     };
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "register" });
   },
   methods: {
+    showModal() {
+      this.visibleM = true;
+    },
+    closeModal() {
+      this.visibleM = false;
+    },
+    beforeUpload(file) {
+      // this.fileList = [...this.fileList, file];
+      return false;
+    },
     handleChange(info) {
-      const status = info.file.status;
-      if (status !== "uploading") {
-        console.log(info.file, info.fileList);
-      }
-      if (status === "done") {
-        this.doc = info.file;
-        this.$message.success(
-          `${info.file.name} se cargó el archivo completamente.`
-        );
-      } else if (status === "error") {
-        this.$message.error(
-          `${info.file.name} ocurrió un error cargando el archivo.`
-        );
+      let fileList = [...info.fileList];
+      fileList = fileList.slice(-1);
+      fileList = fileList.map((file) => {
+        if (file.response) {
+          file.url = file.response.url;
+        }
+        return file;
+      });
+      this.doc = fileList;
+      if (this.doc.length > 0) {
+        this.$message.success(`${info.file.name} se ha cargado correctamente.`);
       }
     },
     uploadDocument() {
       this.$nuxt.$loading.start();
       var document = new FormData();
-      document.append("image", this.doc.originFileObj);
+      document.append("image", this.doc[0].originFileObj);
       this.$axios
         .post("/upload_doc/" + this.idAgreement, document)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.getAgreement();
             this.openNotification(
@@ -340,9 +437,9 @@ export default {
             this.$nuxt.$loading.finish();
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.$nuxt.$loading.finish();
-          this.notification("error", "Error", "Ha ocurrido un error.");
+          this.openNotification("error", "Error", "Ha ocurrido un error.");
         });
     },
     validationLetters(e) {
@@ -357,7 +454,7 @@ export default {
       this.$notification[type]({
         message: title,
         description: description,
-        duration: 5
+        duration: 5,
       });
     },
     handleSubmit(e) {
@@ -376,8 +473,8 @@ export default {
               tico_id: values.tico_id,
               empr_id: values.empr_id,
               conv_costo: values.conv_costo,
-              conv_padre: values.conv_padre
-            }
+              conv_padre: values.conv_padre,
+            },
           };
           console.log("BODY ", body);
           if (this.idAgreement) {
@@ -393,7 +490,7 @@ export default {
     registerAgreement(datos) {
       this.$axios
         .$post("/create_agreement", datos)
-        .then(res => {
+        .then((res) => {
           if (res != null) {
             this.openNotification(
               "success",
@@ -403,7 +500,7 @@ export default {
             this.$router.push("/agreement/list-agreement");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
@@ -411,7 +508,7 @@ export default {
       let id = this.idAgreement;
       this.$axios
         .$put("/update_agreement/" + id, datos)
-        .then(res => {
+        .then((res) => {
           if (res != null) {
             this.openNotification(
               "success",
@@ -421,7 +518,7 @@ export default {
             this.$router.push("/agreement/list-agreement");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
@@ -439,49 +536,49 @@ export default {
     },
     listTypeAgreement() {
       this.$axios("/list_type_agreement")
-        .then(res => {
+        .then((res) => {
           console.log("res -Z ", res);
           if (res) {
             this.typeAgreementList = res.data.data;
           }
           // this.$nuxt.$loading.finish();
         })
-        .catch(err => {
+        .catch((err) => {
           this.$nuxt.$loading.finish();
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
     listCategories() {
       this.$axios("/list_category")
-        .then(res => {
+        .then((res) => {
           if (res) {
             this.categoryList = res.data.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
     listAgreementsParents() {
       this.$axios("/list_agreements_parents")
-        .then(res => {
+        .then((res) => {
           if (res) {
             this.parents = res.data.data;
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
     listCompany() {
       this.$axios("/list_company")
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.companies = res.data.data;
           }
           this.$nuxt.$loading.finish();
         })
-        .catch(err => {
+        .catch((err) => {
           this.$nuxt.$loading.finish();
           this.openNotification(
             "error",
@@ -493,12 +590,12 @@ export default {
     getAgreement() {
       let id = this.idAgreement;
       this.$axios("/agreement_by_id/" + id)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.agreement = res.data.data;
             this.agreement.fechas = [
               moment(this.agreement.conv_fechainicial, "YYYY-MM-DD"),
-              moment(this.agreement.conv_fechafinal, "YYYY-MM-DD")
+              moment(this.agreement.conv_fechafinal, "YYYY-MM-DD"),
             ];
             if (
               this.agreement.tico_id == 2 &&
@@ -509,12 +606,12 @@ export default {
           }
           this.$nuxt.$loading.finish();
         })
-        .catch(err => {
+        .catch((err) => {
           this.$nuxt.$loading.finish();
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
