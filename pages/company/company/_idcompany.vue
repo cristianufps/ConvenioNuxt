@@ -6,7 +6,7 @@
         <h3 v-else class="card-title">Registrar Empresa</h3>
       </a-col>
 
-      <a-col :xs="6" :sm="6" :md="2" :lg="2" :xl="2" style="text-align:end;">
+      <a-col :xs="6" :sm="6" :md="2" :lg="2" :xl="2" style="text-align: end">
         <div class="pointer">
           <nuxt-link to="/company/list-company">
             <a-button>Volver</a-button>
@@ -20,17 +20,17 @@
           :maxLength="20"
           @change="validationNumbers"
           v-decorator="[
-          'empr_nit',
-          {
-            initialValue:company.empr_nit,
-            rules: [
-              {
-                required: true,
-                message: 'Este campo es obligatorio',
-              },
-            ],
-          },
-        ]"
+            'empr_nit',
+            {
+              initialValue: company.empr_nit,
+              rules: [
+                {
+                  required: true,
+                  message: 'Este campo es obligatorio',
+                },
+              ],
+            },
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout">
@@ -38,12 +38,18 @@
         <a-input
           :maxLength="100"
           v-decorator="[
-          'empr_nombre',
-          {
-            initialValue:company.empr_nombre,
-            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
-          },
-        ]"
+            'empr_nombre',
+            {
+              initialValue: company.empr_nombre,
+              rules: [
+                {
+                  required: true,
+                  message: 'Este campo es obligatorio',
+                  whitespace: true,
+                },
+              ],
+            },
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Telefono">
@@ -51,12 +57,12 @@
           :maxLength="10"
           @change="validationNumbers"
           v-decorator="[
-          'empr_telefono',
-          {
-            initialValue:company.empr_telefono,
-            rules: [{ required: true, message: 'Este campo es obligatorio' }],
-          },
-        ]"
+            'empr_telefono',
+            {
+              initialValue: company.empr_telefono,
+              rules: [{ required: true, message: 'Este campo es obligatorio' }],
+            },
+          ]"
           style="width: 100%"
         >
           <a-select
@@ -75,29 +81,37 @@
         <a-input
           :maxLength="100"
           v-decorator="[
-          'empr_direccion',
-          {
-            initialValue:company.empr_direccion,
-            rules: [{ required: true, message: 'Este campo es obligatorio', whitespace: true }],
-          },
-        ]"
+            'empr_direccion',
+            {
+              initialValue: company.empr_direccion,
+              rules: [
+                {
+                  required: true,
+                  message: 'Este campo es obligatorio',
+                  whitespace: true,
+                },
+              ],
+            },
+          ]"
         />
       </a-form-item>
       <a-form-item v-bind="formItemLayout" label="Representante legal">
         <a-select
           v-decorator="[
-          'rele_id',
-          { 
-            initialValue:company.rele_id,
-            rules: [{ required: true, message: 'Este campo es obligatorio' }] },
-        ]"
+            'rele_id',
+            {
+              initialValue: company.rele_id,
+              rules: [{ required: true, message: 'Este campo es obligatorio' }],
+            },
+          ]"
           placeholder="Por favor seleccione un Representante"
         >
           <a-select-option
             v-for="repr in legalRepresentants"
             :key="repr.rele_id"
             :value="repr.rele_id"
-          >{{ repr.rele_nombres }} {{ repr.rele_apellidos }}</a-select-option>
+            >{{ repr.rele_nombres }} {{ repr.rele_apellidos }}</a-select-option
+          >
         </a-select>
       </a-form-item>
       <a-form-item v-bind="tailFormItemLayout">
@@ -134,7 +148,7 @@ export default {
         empr_nit: "",
         empr_telefono: "",
         empr_direccion: "",
-        rele_id: ""
+        rele_id: "",
       },
       legalRepresentants: [],
       confirmDirty: false,
@@ -142,25 +156,25 @@ export default {
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 }
+          sm: { span: 8 },
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 }
-        }
+          sm: { span: 16 },
+        },
       },
       tailFormItemLayout: {
         wrapperCol: {
           xs: {
             span: 24,
-            offset: 0
+            offset: 0,
           },
           sm: {
             span: 16,
-            offset: 8
-          }
-        }
-      }
+            offset: 8,
+          },
+        },
+      },
     };
   },
   beforeCreate() {
@@ -179,33 +193,33 @@ export default {
       this.$notification[type]({
         message: title,
         description: description,
-        duration: 5
+        duration: 5,
       });
     },
     getCompany() {
       let id = this.idEmpresa;
       this.$axios("/company_by_id/" + id)
-        .then(res => {
+        .then((res) => {
           if (res.status == 200) {
             this.company = res.data.data;
           }
           this.$nuxt.$loading.finish();
         })
-        .catch(err => {
+        .catch((err) => {
           this.$nuxt.$loading.finish();
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
     },
     listLegalRepresentant() {
       this.$axios("/list_legal_representant")
-        .then(res => {
+        .then((res) => {
           console.log("res -Z ", res);
           if (res) {
             this.legalRepresentants = res.data.data;
           }
           this.$nuxt.$loading.finish();
         })
-        .catch(err => {
+        .catch((err) => {
           this.$nuxt.$loading.finish();
           this.openNotification("error", "Error", "Se ha producido un error.");
         });
@@ -220,8 +234,8 @@ export default {
               empr_nit: values.empr_nit,
               empr_telefono: values.empr_telefono,
               empr_direccion: values.empr_direccion,
-              rele_id: values.rele_id
-            }
+              rele_id: values.rele_id,
+            },
           };
 
           if (this.idEmpresa) {
@@ -235,27 +249,11 @@ export default {
     updateCompany(datos) {
       this.$axios
         .$put("/update_company/" + this.idEmpresa, datos)
-        .then(res => {
+        .then((res) => {
           console.log("upd ", res);
-          if (res.status) {
-            this.openNotification(
-              "success",
-              "Información",
-              "Se ha editado la empresa satisfactoriamente."
-            );
-            this.$router.push("/company/list-company");
-          }
-        })
-        .catch(error => {
-          this.openNotification("error", "Error", "Se ha producido un error.");
-        });
-    },
-    registerCompany(datos) {
-      console.log("reg ", datos);
-      this.$axios
-        .$post("/create_company", datos)
-        .then(res => {
-          if (res != null) {
+          if (res.error) {
+            this.openNotification("info", "Atención", res.message);
+          } else {
             this.openNotification(
               "success",
               "Información",
@@ -264,15 +262,34 @@ export default {
             this.$router.push("/company/list-company");
           }
         })
-        .catch(error => {
+        .catch((error) => {
+          this.openNotification("error", "Error", "Se ha producido un error.");
+        });
+    },
+    registerCompany(datos) {
+      this.$axios
+        .$post("/create_company", datos)
+        .then((res) => {
+          if (res.error) {
+            this.openNotification("info", "Atención", res.message);
+          } else {
+            this.openNotification(
+              "success",
+              "Información",
+              "Se ha registrado la empresa satisfactoriamente."
+            );
+            this.$router.push("/company/list-company");
+          }
+        })
+        .catch((error) => {
           this.openNotification(
             "error",
             "Error",
             "Se ha producido un error registrando la empresa."
           );
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

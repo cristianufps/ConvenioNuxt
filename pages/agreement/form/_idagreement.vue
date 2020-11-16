@@ -222,15 +222,19 @@
             v-if="agreement.conv_soporte"
             :href="urlBuckect + agreement.conv_soporte"
             target="_blank"
-            >{{ agreement.conv_soporte }}</a
-          >
+            >{{ agreement.conv_soporte }}
+          </a>
+
           <p v-else>No tiene documento cargado</p>
-          <a-button
-            v-if="agreement.conv_soporte"
-            @click="showModal"
-            type="primary"
-            >Ver documento</a-button
-          >
+          <div style="width: 100%">
+            <a-button
+              v-if="agreement.conv_soporte"
+              @click="showModal"
+              class="buttom-requets"
+            >
+              <a-icon type="eye"></a-icon>Ver documento</a-button
+            >
+          </div>
         </div>
 
         <a-row v-if="doc" type="flex" justify="start">
@@ -253,16 +257,18 @@
       :footer="null"
       :maskClosable="false"
       @cancel="closeModal"
+      class="modal-top"
     >
       <a-row slot="title" type="flex" justify="space-around">
         <h4 class="title-company-types">Visualización</h4>
       </a-row>
-      <!-- <iframe height="1200" name="demo" :srcdoc="docUrl"></iframe> -->
-      <!-- <VueDocPreview
-        value="https://imagenes-prod-tus-cuentas.s3.us-east-2.amazonaws.com/WL99bvSNsG5zQK6hAA7sP3t1"
-        type="office"
-      /> -->
-       <client-only placeholder="Loading...">
+      <iframe
+        v-if="extPdf"
+        height="1000"
+        name="demo"
+        :src="urlBuckect + agreement.conv_soporte"
+      ></iframe>
+      <client-only v-else placeholder="Loading...">
         <VueDocPreview
           :value="urlBuckect + agreement.conv_soporte"
           type="office"
@@ -273,6 +279,7 @@
 </template>
 
 <script>
+import constantes from "~/lib/constants.js";
 import VueDocPreview from "vue-doc-preview";
 import moment from "moment";
 moment.locale("es-MX");
@@ -298,9 +305,9 @@ export default {
   layout: "administrador",
   data() {
     return {
+      extPdf: false,
       visibleM: false,
-      urlBuckect:
-        "https://storage.googleapis.com/swac-app.appspot.com/soportes_convenios/",
+      urlBuckect: constantes.URLBUCKECT,
       idAgreement: this.$route.params.idagreement,
       agreement: {
         conv_nombre: "",
@@ -603,6 +610,14 @@ export default {
             ) {
               this.parent = true;
             }
+            let ext = this.agreement.conv_soporte
+              ? this.agreement.conv_soporte.split(".")
+              : [];
+            //
+            ext = ext[ext.length - 1];
+
+            this.extPdf = ext == "pdf" ? true : false;
+            console.log("---", ext);
           }
           this.$nuxt.$loading.finish();
         })
@@ -622,5 +637,11 @@ export default {
 .row-upload {
   padding-top: 25px;
   border-top: 1px solid #e8e8e8;
+}
+
+.buttom-requets {
+  height: 60% !important;
+  width: 150px;
+  margin-bottom: 5px;
 }
 </style>

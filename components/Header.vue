@@ -7,12 +7,16 @@
       icon="menu-unfold"
       size="large"
     />
+    <div style="padding-left: 10px">
+      <img src="~assets/images/logo_swac.jpg" height="50" alt="logo" />
+    </div>
     <a-menu
       v-model="current"
       mode="horizontal"
       class="prueba"
-      style="text-align: end"
+      style="text-align: end; height: 60px"
     >
+      <!-- <img height="50" src="~assets/images/logo_swac.jpg" /> -->
       <a-sub-menu class="opc-image">
         <span slot="title" class="submenu-title-wrapper">
           <a-badge :count="notificaciones.length" :overflowCount="99">
