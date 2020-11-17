@@ -77,12 +77,13 @@
       <a-sub-menu key="sub4">
         <span slot="title">
           <a-icon type="user" />
-          <span>Usuarios</span>
+          <span>Estudiantes</span>
         </span>
         <a-menu-item key="144">
-          <nuxt-link to="/users/list-users">Usuarios registrados</nuxt-link>
+          <nuxt-link to="/student/list-student"
+            >Estudiantes registrados</nuxt-link
+          >
         </a-menu-item>
-        <a-menu-item key="146">Option 6</a-menu-item>
       </a-sub-menu>
     </a-menu>
     <a-drawer

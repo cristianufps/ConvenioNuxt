@@ -469,7 +469,6 @@ export default {
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
-
           let body = {
             agreement: {
               conv_nombre: values.conv_nombre,
@@ -489,8 +488,6 @@ export default {
           } else {
             this.registerAgreement(body);
           }
-
-          // birth_date.format('YYYY-MM-DD')
         }
       });
     },

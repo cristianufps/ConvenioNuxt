@@ -106,7 +106,7 @@
       </template>
       <template slot="delete" slot-scope="text, record, index, column">
         <a-popconfirm
-          title="¿Eliminar Empresa?"
+          title="¿Eliminar Convenio?"
           okText="Si"
           cancelText="No"
           @confirm="() => deleteAgremment(record.conv_id)"
@@ -326,25 +326,44 @@ export default {
             if (res.data.error) {
               let arch = "";
               let errores = [];
-              if (Array.isArray(res.data.agremments)) {
-                errores = res.data.agremments;
-              } else {
-                errores.push(res.data.agremments);
+              if (res.data.agremments) {
+                if (Array.isArray(res.data.agremments)) {
+                  errores = res.data.agremments;
+                } else {
+                  errores.push(res.data.agremments);
+                }
+                errores.map((item) => (arch += "-" + item.conv_nombre + "\n"));
+                this.txt(arch, "convenios_relacionados.txt");
               }
-              errores.map((item) => (arch += "-" + item.conv_nombre + "\n"));
-              this.txt(arch, "convenios_relacionados.txt");
+              if (res.data.students) {
+                if (Array.isArray(res.data.students)) {
+                  errores = res.data.students;
+                } else {
+                  errores.push(res.data.students);
+                }
+                errores.map(
+                  (item) =>
+                    (arch +=
+                      "-" +
+                      item.estu_nombres +
+                      " " +
+                      item.estu_apellidos +
+                      " " +
+                      item.estu_codigo +
+                      "\n")
+                );
+                this.txt(arch, "estudiantes_relacionados.txt");
+              }
               this.$info({
                 width: 500,
                 title: "Atención",
                 content: function () {
                   return (
                     <ul style="padding-left: 0;">
-                      <li>
-                        El convenio es padre de otros convenios especificos.
-                      </li>
+                      <li>El convenio tiene registro relacionados.</li>
                       <li>
                         Para poder eliminar el convenio debe eliminar los
-                        convenios que se encuentran en archivo generado.
+                        registros que se encuentran en archivo generado.
                       </li>
                     </ul>
                   );
