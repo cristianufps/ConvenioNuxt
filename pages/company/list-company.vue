@@ -234,6 +234,7 @@ export default {
       a.click();
     },
     deleteCompany(id) {
+      this.$nuxt.$loading.start();
       this.$axios
         .delete("/delete_company_by_id/" + id)
         .then((res) => {
@@ -273,9 +274,11 @@ export default {
                 "Se ha eliminado la empresa satisfactoriamente."
               );
             }
+            this.$nuxt.$loading.finish();
           }
         })
         .catch((err) => {
+          this.$nuxt.$loading.finish();
           console.log("errrr", err);
           this.openNotification(
             "error",

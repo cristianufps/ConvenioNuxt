@@ -7,59 +7,68 @@
             <a-input
               type="password"
               v-decorator="[
-          'password_actual',
-          {
-            rules: [
-              {
-                required: true,
-                message: 'Este campo es obligatorio',
-              },
-              {
-                validator: validatePassword,
-              },
-            ],
-          },
-        ]"
+                'password_actual',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Este campo es obligatorio',
+                    },
+                    {
+                      validator: validatePassword,
+                    },
+                  ],
+                },
+              ]"
             />
           </a-form-item>
-          <a-form-item v-bind="formItemLayout" label="Nueva contraseña" has-feedback>
+          <a-form-item
+            v-bind="formItemLayout"
+            label="Nueva contraseña"
+            has-feedback
+          >
             <a-input
               v-decorator="[
-          'password',
-          {
-            rules: [
-              {
-                required: true,
-                message: 'Este campo es obligatorio',
-              },
-              {
-                validator: validateToNextPassword,
-              },
-              {
-                min:8,message: 'Contraseña corta',
-              }
-            ],
-          },
-        ]"
+                'password',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Este campo es obligatorio',
+                    },
+                    {
+                      validator: validateToNextPassword,
+                    },
+                    {
+                      min: 8,
+                      message: 'Contraseña corta',
+                    },
+                  ],
+                },
+              ]"
               type="password"
             />
           </a-form-item>
-          <a-form-item v-bind="formItemLayout" label="Confirmar contraseña" has-feedback>
+          <a-form-item
+            v-bind="formItemLayout"
+            label="Confirmar contraseña"
+            has-feedback
+          >
             <a-input
               v-decorator="[
-          'confirm',
-          {
-            rules: [
-              {
-                required: true,
-                message: 'Este campo es obligatorio',
-              },
-              {
-                validator: compareToFirstPassword,
-              },
-            ],
-          },
-        ]"
+                'confirm',
+                {
+                  rules: [
+                    {
+                      required: true,
+                      message: 'Este campo es obligatorio',
+                    },
+                    {
+                      validator: compareToFirstPassword,
+                    },
+                  ],
+                },
+              ]"
               type="password"
               @blur="handleConfirmBlur"
             />
@@ -87,25 +96,25 @@ export default {
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 }
+          sm: { span: 8 },
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 }
-        }
+          sm: { span: 16 },
+        },
       },
       tailFormItemLayout: {
         wrapperCol: {
           xs: {
             span: 24,
-            offset: 0
+            offset: 0,
           },
           sm: {
             span: 16,
-            offset: 8
-          }
-        }
-      }
+            offset: 8,
+          },
+        },
+      },
     };
   },
   beforeCreate() {
@@ -115,7 +124,7 @@ export default {
     notification(type, title, mensaje) {
       this.$notification[type]({
         message: title,
-        description: mensaje
+        description: mensaje,
       });
     },
     handleSubmit(e) {
@@ -134,7 +143,7 @@ export default {
     compareToFirstPassword(rule, value, callback) {
       const form = this.form;
       if (value && value !== form.getFieldValue("password")) {
-        callback("Two passwords that you enter is inconsistent!");
+        callback("las contraseñas no coinciden");
       } else {
         callback();
       }
@@ -152,7 +161,7 @@ export default {
         autoCompleteResult = [];
       } else {
         autoCompleteResult = [".com", ".org", ".net"].map(
-          domain => `${value}${domain}`
+          (domain) => `${value}${domain}`
         );
       }
       this.autoCompleteResult = autoCompleteResult;
@@ -160,7 +169,7 @@ export default {
     validatePassword(rule, value, callback) {
       let id = this.idLogged;
       this.$axios("/validate_password/" + id + "/" + value)
-        .then(res => {
+        .then((res) => {
           if (res) {
             if (res.data.response) {
               callback();
@@ -169,7 +178,7 @@ export default {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           callback("Contraseña actual no coincide!");
         });
     },
@@ -178,12 +187,12 @@ export default {
 
       let body = {
         actualPassword: datos.password_actual,
-        newPassword: datos.password
+        newPassword: datos.password,
       };
       let id = this.idLogged;
       this.$axios
         .put("/update_password/" + id, body)
-        .then(res => {
+        .then((res) => {
           if (res) {
             if (res.status == 200) {
               this.notification("success", "Información", res.data.message);
@@ -192,7 +201,7 @@ export default {
             }
           }
         })
-        .catch(err => {
+        .catch((err) => {
           this.notification(
             "error",
             "Error",
@@ -200,7 +209,7 @@ export default {
           );
           this.$nuxt.$loading.finish();
         });
-    }
-  }
+    },
+  },
 };
 </script>

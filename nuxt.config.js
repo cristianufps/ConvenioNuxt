@@ -35,14 +35,14 @@ export default {
         '@/plugins/vue-axios',
         '@/plugins/axios'
     ],
-    /*  
+    /*  ingsistemasufps.co
      ** Axios module configuration
-     ** https://convenio-273922.uc.r.appspot.com
+     ** http://swacb.ingsw.ingsistemasufps.co
      ** https://swac-app.rj.r.appspot.com
-     ** http://localhost:8080
+     ** http://localhost:3030
      */
     axios: {
-        baseURL: 'http://localhost:8080'
+        baseURL: 'http://swacb.ingsw.ingsistemasufps.co'
     },
     /*
      ** Login Configuration 

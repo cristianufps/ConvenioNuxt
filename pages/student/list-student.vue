@@ -1,8 +1,13 @@
 <template>
   <a-card>
     <a-row slot="title" type="flex" justify="space-around">
-      <a-col :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+      <a-col :xs="10" :sm="10" :md="18" :lg="16" :xl="16">
         <h3 class="card-title">Estudiantes</h3>
+      </a-col>
+      <a-col :xs="10" :sm="10" :md="4" :lg="4" :xl="4">
+        <a-button @click="excel" v-if="students.length > 0" type="primary">
+          <b>Descargar Excel</b>
+        </a-button>
       </a-col>
       <a-col :xs="4" :sm="4" :md="4" :lg="4" :xl="4">
         <nuxt-link to="/student/form">
@@ -10,7 +15,12 @@
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table :dataSource="students" :columns="columns" rowKey="estu_id">
+    <a-table
+      :pagination="{ size: 'small' }"
+      :dataSource="students"
+      :columns="columns"
+      rowKey="estu_id"
+    >
       <div
         slot="filterDropdown"
         slot-scope="{
@@ -210,6 +220,22 @@ export default {
     };
   },
   methods: {
+    success(description) {
+      this.$message.success(description);
+    },
+    excel() {
+      let route = "";
+      route = this.$axios.defaults.baseURL + "/excel_students";
+      let newWindow = window.open(route, "blank");
+      if (
+        !newWindow ||
+        newWindow.closed ||
+        typeof newWindow.closed === "undefined"
+      ) {
+        this.allowEmergingWindows();
+      }
+      this.success("Se descargó el archivo con éxito");
+    },
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
       this.searchText = selectedKeys[0];

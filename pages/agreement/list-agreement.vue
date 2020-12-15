@@ -17,7 +17,12 @@
         </nuxt-link>
       </a-col>
     </a-row>
-    <a-table rowKey="conv_id" :dataSource="agreements" :columns="columns">
+    <a-table
+      rowKey="conv_id"
+      :dataSource="agreements"
+      :columns="columns"
+      :pagination="{ size: 'small' }"
+    >
       <div
         slot="filterDropdown"
         slot-scope="{
@@ -116,7 +121,91 @@
           </a-button>
         </a-popconfirm>
       </template>
+      <template slot="customStudent" slot-scope="text, record, index, column">
+        <a-button
+          @click="listStudents(record.conv_id)"
+          class="btn-error btn-table"
+          ><strong> Ver </strong>
+        </a-button>
+      </template>
     </a-table>
+    <a-modal
+      v-model="visible"
+      title="Estudiantes Relacionados"
+      cancelText="Cerrar"
+      okText="Descargar excel"
+      @ok="downloadStudents"
+    >
+      <a-table :dataSource="students" :columns="columns2">
+        <div
+          slot="filterDropdown"
+          slot-scope="{
+            setSelectedKeys,
+            selectedKeys,
+            confirm,
+            clearFilters,
+            column,
+          }"
+          style="padding: 8px"
+        >
+          <a-input
+            v-ant-ref="(c) => (searchInput = c)"
+            :placeholder="`Search ${column.dataIndex}`"
+            :value="selectedKeys[0]"
+            @change="
+              (e) => setSelectedKeys(e.target.value ? [e.target.value] : [])
+            "
+            @pressEnter="
+              () => handleSearch(selectedKeys, confirm, column.dataIndex)
+            "
+            style="width: 188px; margin-bottom: 8px; display: block"
+          />
+          <a-button
+            type="primary"
+            @click="() => handleSearch(selectedKeys, confirm, column.dataIndex)"
+            icon="search"
+            size="small"
+            style="width: 90px; margin-right: 8px"
+            >Search</a-button
+          >
+          <a-button
+            @click="() => handleReset(clearFilters)"
+            size="small"
+            style="width: 90px"
+            >Reset</a-button
+          >
+        </div>
+        <a-icon
+          slot="filterIcon"
+          slot-scope="filtered"
+          type="search"
+          :style="{ color: filtered ? '#108ee9' : undefined }"
+        />
+        <template slot="customRender" slot-scope="text, record, index, column">
+          <span v-if="searchText && searchedColumn === column.dataIndex">
+            <template
+              v-for="(fragment, i) in text
+                .toString()
+                .split(new RegExp(`(?<=${searchText})|(?=${searchText})`, 'i'))"
+            >
+              <mark
+                v-if="fragment.toLowerCase() === searchText.toLowerCase()"
+                :key="i"
+                class="highlight"
+              >
+                {{ fragment }}
+              </mark>
+              <template v-else>
+                {{ fragment }}
+              </template>
+            </template>
+          </span>
+          <template v-else>
+            {{ text }}
+          </template>
+        </template>
+      </a-table>
+    </a-modal>
   </a-card>
 </template>
 <script>
@@ -132,6 +221,9 @@ export default {
   layout: "administrador",
   data() {
     return {
+      idConvenio: "",
+      students: [],
+      visible: false,
       agreements: [],
       searchText: "",
       searchInput: null,
@@ -226,6 +318,16 @@ export default {
           },
         },
         {
+          title: "Estudiantes",
+          dataIndex: "conv_fecharegistro",
+          key: "conv_fecharegistro",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customStudent",
+          },
+        },
+        {
           title: "Acción",
           dataIndex: "conv_id",
           key: "conv_id",
@@ -234,9 +336,108 @@ export default {
           },
         },
       ],
+      columns2: [
+        {
+          title: "Nombres",
+          dataIndex: "estu_nombres",
+          key: "estu_nombres",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
+          },
+          onFilter: (value, record) =>
+            record.estu_nombres
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              }, 0);
+            }
+          },
+        },
+        {
+          title: "Apellidos",
+          dataIndex: "estu_apellidos",
+          key: "estu_apellidos",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
+          },
+          onFilter: (value, record) =>
+            record.estu_apellidos
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              }, 0);
+            }
+          },
+        },
+        {
+          title: "Codigo",
+          dataIndex: "estu_codigo",
+          key: "estu_codigo",
+          scopedSlots: {
+            filterDropdown: "filterDropdown",
+            filterIcon: "filterIcon",
+            customRender: "customRender",
+          },
+          onFilter: (value, record) =>
+            record.estu_codigo
+              .toString()
+              .toLowerCase()
+              .includes(value.toLowerCase()),
+          onFilterDropdownVisibleChange: (visible) => {
+            if (visible) {
+              setTimeout(() => {
+                this.searchInput.focus();
+              });
+            }
+          },
+        },
+      ],
     };
   },
   methods: {
+    downloadStudents() {
+      let route = "";
+      route = this.$axios.defaults.baseURL + "/excel_students_by_agreement/";
+      route += this.idConvenio;
+      let newWindow = window.open(route, "blank");
+      if (
+        !newWindow ||
+        newWindow.closed ||
+        typeof newWindow.closed === "undefined"
+      ) {
+        this.allowEmergingWindows();
+      }
+      this.success("Se descargó el archivo con éxito");
+    },
+    listStudents(id) {
+      this.$nuxt.$loading.start();
+      this.idConvenio = id;
+      this.$axios("/students_by_agreement/" + id)
+        .then((res) => {
+          if (res) {
+            console.log(res);
+            this.students = res.data.response;
+            this.visible = true;
+          }
+          this.$nuxt.$loading.finish();
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$nuxt.$loading.finish();
+        });
+    },
     success(description) {
       this.$message.success(description);
     },
@@ -281,22 +482,16 @@ export default {
       // let id = this.$auth.$state.user.id
       // let rol = this.$auth.$state.user.role.role_id
       let route = "";
-
       route = this.$axios.defaults.baseURL + "/excel_agreements";
-
-      if (route !== null) {
-        let newWindow = window.open(route, "blank");
-        if (
-          !newWindow ||
-          newWindow.closed ||
-          typeof newWindow.closed === "undefined"
-        ) {
-          this.allowEmergingWindows();
-        }
-        this.success("Se descargó el archivo con éxito");
-      } else {
-        this.error("Se ha produciodo un problema.");
+      let newWindow = window.open(route, "blank");
+      if (
+        !newWindow ||
+        newWindow.closed ||
+        typeof newWindow.closed === "undefined"
+      ) {
+        this.allowEmergingWindows();
       }
+      this.success("Se descargó el archivo con éxito");
     },
     allowEmergingWindows() {
       Modal.warning({
@@ -318,6 +513,7 @@ export default {
       a.click();
     },
     deleteAgremment(id) {
+      this.$nuxt.$loading.start();
       this.$axios
         .delete("/delete_agreement_by_id/" + id)
         .then((res) => {
@@ -379,8 +575,10 @@ export default {
               );
             }
           }
+          this.$nuxt.$loading.finish();
         })
         .catch((err) => {
+          this.$nuxt.$loading.finish();
           console.log("errrr", err);
           this.openNotification(
             "error",

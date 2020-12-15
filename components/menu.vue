@@ -12,10 +12,10 @@
           <a-icon type="tool" />
           <span>Predeterminado</span>
         </span>
-        <a-menu-item key="11">
+        <a-menu-item key="key_categoria">
           <nuxt-link to="/admin/category/category-list">Categorías</nuxt-link>
         </a-menu-item>
-        <a-menu-item key="21">
+        <a-menu-item key="key_tipoconvenio">
           <nuxt-link to="/admin/agreement-type/agreement-type-list"
             >Tipo Convenio</nuxt-link
           >
@@ -27,10 +27,10 @@
           <a-icon type="apartment" />
           <span>Empresas</span>
         </span>
-        <a-menu-item key="111">
+        <a-menu-item key="key_companies">
           <nuxt-link to="/company/list-company">Empresas registradas</nuxt-link>
         </a-menu-item>
-        <a-menu-item key="211">
+        <a-menu-item key="key_legal">
           <nuxt-link to="/legal-representant/list-representant"
             >Representante legal</nuxt-link
           >
@@ -41,17 +41,17 @@
           <a-icon type="link" />
           <span>Convenios</span>
         </span>
-        <a-menu-item key="5">
+        <a-menu-item key="key_macro">
           <nuxt-link to="/agreement/list-agreement-macro"
             >Convenios Macro</nuxt-link
           >
         </a-menu-item>
-        <a-menu-item key="6">
+        <a-menu-item key="key_esp">
           <nuxt-link to="/agreement/list-agreement-specific"
             >Convenios Especificos</nuxt-link
           >
         </a-menu-item>
-        <a-menu-item key="7">
+        <a-menu-item key="key_agre">
           <nuxt-link to="/agreement/list-agreement"
             >Convenios registrados</nuxt-link
           >
@@ -62,7 +62,7 @@
           <a-icon type="solution" />
           <span>Peticiones</span>
         </span>
-        <a-menu-item key="9"
+        <a-menu-item key="key_pet"
           ><nuxt-link to="/request/request"
             >Solicitudes
           </nuxt-link></a-menu-item
@@ -79,7 +79,7 @@
           <a-icon type="user" />
           <span>Estudiantes</span>
         </span>
-        <a-menu-item key="144">
+        <a-menu-item key="key_student">
           <nuxt-link to="/student/list-student"
             >Estudiantes registrados</nuxt-link
           >
@@ -101,78 +101,78 @@
         mode="inline"
         :inlineCollapsed="collapsed"
       >
-        <a-sub-menu key="sub0">
+        <a-sub-menu key="sub0e">
           <span slot="title">
             <a-icon type="tool" />
             <span>Predeterminado</span>
           </span>
-          <a-menu-item key="11">
+          <a-menu-item key="11e">
             <nuxt-link to="/admin/category/category-list">Categorías</nuxt-link>
           </a-menu-item>
-          <a-menu-item key="21">
+          <a-menu-item key="21e">
             <nuxt-link to="/admin/agreement-type/agreement-type-list"
               >Tipo Convenio</nuxt-link
             >
           </a-menu-item>
         </a-sub-menu>
 
-        <a-sub-menu key="sub1">
+        <a-sub-menu key="sub1e">
           <span slot="title">
             <a-icon type="apartment" />
             <span>Empresas</span>
           </span>
-          <a-menu-item key="111">
+          <a-menu-item key="111e">
             <nuxt-link to="/company/list-company"
               >Empresas registradas</nuxt-link
             >
           </a-menu-item>
-          <a-menu-item key="211">
+          <a-menu-item key="211e">
             <nuxt-link to="/legal-representant/list-representant"
               >Representante legal</nuxt-link
             >
           </a-menu-item>
         </a-sub-menu>
-        <a-sub-menu key="sub2">
+        <a-sub-menu key="sub2e">
           <span slot="title">
             <a-icon type="link" />
             <span>Convenios</span>
           </span>
-          <a-menu-item key="5">
+          <a-menu-item key="5e">
             <nuxt-link to="/agreement/list-agreement-macro"
               >Convenios Macro</nuxt-link
             >
           </a-menu-item>
-          <a-menu-item key="6">
+          <a-menu-item key="6e">
             <nuxt-link to="/agreement/list-agreement-specific"
               >Convenios Especificos</nuxt-link
             >
           </a-menu-item>
-          <a-menu-item key="7">
+          <a-menu-item key="7e">
             <nuxt-link to="/agreement/list-agreement"
               >Convenios registrados</nuxt-link
             >
           </a-menu-item>
         </a-sub-menu>
-        <a-sub-menu key="sub3">
+        <a-sub-menu key="sub3e">
           <span slot="title">
             <a-icon type="schedule" />
             <span>Alertas Tempranas</span>
           </span>
-          <a-menu-item key="9"
+          <a-menu-item key="9e"
             ><nuxt-link to="/request/request"
               >Solicitudes</nuxt-link
             ></a-menu-item
           >
         </a-sub-menu>
-        <a-sub-menu key="sub4">
+        <a-sub-menu key="sub4e">
           <span slot="title">
             <a-icon type="user" />
             <span>Usuarios</span>
           </span>
-          <a-menu-item key="144">
+          <a-menu-item key="14e4">
             <nuxt-link to="/users/list-users">Usuarios registrados</nuxt-link>
           </a-menu-item>
-          <a-menu-item key="146">Option 6</a-menu-item>
+          <a-menu-item key="14e6">Option 6</a-menu-item>
         </a-sub-menu>
       </a-menu>
     </a-drawer>

@@ -273,6 +273,7 @@ export default {
       });
     },
     registerStudent(datos) {
+      this.$nuxt.$loading.start();
       this.$axios
         .$post("/create_student", datos)
         .then((res) => {
@@ -293,6 +294,7 @@ export default {
           }
         })
         .catch((error) => {
+          this.$nuxt.$loading.finish();
           this.notification("error", "Error", "Se ha producido un error.");
         });
     },
